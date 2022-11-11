@@ -1,4 +1,5 @@
 import {gql} from '@apollo/client';
+import {TodoItemFragment} from '../fragments';
 
 export const listTodos = gql`
   query ListTodos(
@@ -8,13 +9,10 @@ export const listTodos = gql`
   ) {
     listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        id
-        name
-        description
-        createdAt
-        updatedAt
+        ...TodoItem
       }
       nextToken
     }
   }
+  ${TodoItemFragment}
 `;

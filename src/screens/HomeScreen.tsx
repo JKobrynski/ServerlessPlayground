@@ -7,7 +7,9 @@ import {
 } from 'react-native';
 import React from 'react';
 import {
+  TodoItemFragment,
   useCreateTodoMutation,
+  useDeleteTodoMutation,
   useListTodosQuery,
 } from '../apollo/artifacts/resolvers-types';
 
@@ -16,8 +18,16 @@ export const HomeScreen = () => {
     onError: error => console.log('ERROR', error),
   });
   const [createTodo] = useCreateTodoMutation({
-    onCompleted: res => {
-      console.log('COMPLETED', res);
+    onCompleted: () => {
+      refetch();
+    },
+    onError: error => {
+      console.log('ERROR', error);
+    },
+  });
+  const [deleteTodo] = useDeleteTodoMutation({
+    onCompleted: () => {
+      refetch();
     },
     onError: error => {
       console.log('ERROR', error);
@@ -36,6 +46,18 @@ export const HomeScreen = () => {
     });
   };
 
+  const onDelete = async (item: TodoItemFragment | null) => {
+    if (item) {
+      await deleteTodo({
+        variables: {
+          input: {
+            id: item.id,
+          },
+        },
+      });
+    }
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -47,7 +69,12 @@ export const HomeScreen = () => {
         </TouchableOpacity>
         <View>
           {data?.listTodos?.items.map(item => (
-            <Text key={item?.id}>{item?.name}</Text>
+            <View key={item?.id} style={styles.row}>
+              <Text>{item?.name}</Text>
+              <TouchableOpacity onPress={() => onDelete(item)}>
+                <Text style={styles.x}>X</Text>
+              </TouchableOpacity>
+            </View>
           ))}
         </View>
       </View>
@@ -69,5 +96,17 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     fontWeight: '600',
     fontSize: 16,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    justifyContent: 'space-evenly',
+    paddingVertical: 6,
+  },
+  x: {
+    color: 'red',
+    fontWeight: '800',
+    fontSize: 14,
   },
 });

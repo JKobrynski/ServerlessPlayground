@@ -283,6 +283,15 @@ export type UpdateTodoInput = {
   name?: InputMaybe<Scalars['String']>;
 };
 
+export type TodoItemFragment = {
+  __typename: 'Todo';
+  id: string;
+  name: string;
+  description?: string | null;
+  createdAt: any;
+  updatedAt: any;
+};
+
 export type CreateTodoMutationVariables = Exact<{
   input: CreateTodoInput;
   condition?: InputMaybe<ModelTodoConditionInput>;
@@ -291,6 +300,23 @@ export type CreateTodoMutationVariables = Exact<{
 export type CreateTodoMutation = {
   __typename?: 'Mutation';
   createTodo?: {
+    __typename?: 'Todo';
+    id: string;
+    name: string;
+    description?: string | null;
+    createdAt: any;
+    updatedAt: any;
+  } | null;
+};
+
+export type DeleteTodoMutationVariables = Exact<{
+  input: DeleteTodoInput;
+  condition?: InputMaybe<ModelTodoConditionInput>;
+}>;
+
+export type DeleteTodoMutation = {
+  __typename?: 'Mutation';
+  deleteTodo?: {
     __typename?: 'Todo';
     id: string;
     name: string;
@@ -312,7 +338,7 @@ export type ListTodosQuery = {
     __typename?: 'ModelTodoConnection';
     nextToken?: string | null;
     items: Array<{
-      __typename?: 'Todo';
+      __typename: 'Todo';
       id: string;
       name: string;
       description?: string | null;
@@ -322,6 +348,16 @@ export type ListTodosQuery = {
   } | null;
 };
 
+export const TodoItemFragmentDoc = gql`
+  fragment TodoItem on Todo {
+    __typename
+    id
+    name
+    description
+    createdAt
+    updatedAt
+  }
+`;
 export const CreateTodoDocument = gql`
   mutation CreateTodo(
     $input: CreateTodoInput!
@@ -380,6 +416,64 @@ export type CreateTodoMutationOptions = Apollo.BaseMutationOptions<
   CreateTodoMutation,
   CreateTodoMutationVariables
 >;
+export const DeleteTodoDocument = gql`
+  mutation DeleteTodo(
+    $input: DeleteTodoInput!
+    $condition: ModelTodoConditionInput
+  ) {
+    deleteTodo(input: $input, condition: $condition) {
+      id
+      name
+      description
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export type DeleteTodoMutationFn = Apollo.MutationFunction<
+  DeleteTodoMutation,
+  DeleteTodoMutationVariables
+>;
+
+/**
+ * __useDeleteTodoMutation__
+ *
+ * To run a mutation, you first call `useDeleteTodoMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteTodoMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteTodoMutation, { data, loading, error }] = useDeleteTodoMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *      condition: // value for 'condition'
+ *   },
+ * });
+ */
+export function useDeleteTodoMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteTodoMutation,
+    DeleteTodoMutationVariables
+  >,
+) {
+  const options = {...defaultOptions, ...baseOptions};
+  return Apollo.useMutation<DeleteTodoMutation, DeleteTodoMutationVariables>(
+    DeleteTodoDocument,
+    options,
+  );
+}
+export type DeleteTodoMutationHookResult = ReturnType<
+  typeof useDeleteTodoMutation
+>;
+export type DeleteTodoMutationResult =
+  Apollo.MutationResult<DeleteTodoMutation>;
+export type DeleteTodoMutationOptions = Apollo.BaseMutationOptions<
+  DeleteTodoMutation,
+  DeleteTodoMutationVariables
+>;
 export const ListTodosDocument = gql`
   query ListTodos(
     $filter: ModelTodoFilterInput
@@ -388,15 +482,12 @@ export const ListTodosDocument = gql`
   ) {
     listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        id
-        name
-        description
-        createdAt
-        updatedAt
+        ...TodoItem
       }
       nextToken
     }
   }
+  ${TodoItemFragmentDoc}
 `;
 
 /**

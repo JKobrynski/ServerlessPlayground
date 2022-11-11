@@ -14,3 +14,18 @@ export const createTodo = gql`
     }
   }
 `;
+
+export const deleteTodo = gql`
+  mutation DeleteTodo(
+    $input: DeleteTodoInput!
+    $condition: ModelTodoConditionInput
+  ) {
+    deleteTodo(input: $input, condition: $condition) {
+      id
+      name
+      description
+      createdAt
+      updatedAt
+    }
+  }
+`;
