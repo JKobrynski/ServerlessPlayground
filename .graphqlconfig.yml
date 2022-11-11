@@ -1,0 +1,12 @@
+projects:
+  serverlessplayground:
+    schemaPath: src/graphql/schema.json
+    includes:
+      - src/graphql/**/*.ts
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: typescript
+        generatedFileName: graphql-generated.ts
+        docsFilePath: src/graphql
