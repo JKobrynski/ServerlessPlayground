@@ -4,30 +4,18 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import React from 'react';
-import {listTodos} from '../graphql/queries';
 import {
-  CreateTodoMutation,
-  CreateTodoMutationVariables,
-  ListTodosQuery,
-  ListTodosQueryVariables,
-} from '../../graphql-generated';
-import {createTodo as createTodoMutation} from '../graphql/mutations';
-import {gql, useMutation, useQuery} from '@apollo/client';
+  useCreateTodoMutation,
+  useListTodosQuery,
+} from '../apollo/artifacts/resolvers-types';
 
 export const HomeScreen = () => {
-  const {data, refetch} = useQuery<ListTodosQuery, ListTodosQueryVariables>(
-    gql(listTodos),
-    {
-      onError: error => Alert.alert(error.message),
-    },
-  );
-  const [createTodo] = useMutation<
-    CreateTodoMutation,
-    CreateTodoMutationVariables
-  >(gql(createTodoMutation), {
+  const {data, refetch} = useListTodosQuery({
+    onError: error => console.log('ERROR', error),
+  });
+  const [createTodo] = useCreateTodoMutation({
     onCompleted: res => {
       console.log('COMPLETED', res);
     },
