@@ -16,6 +16,9 @@ import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
 const client = new ApolloClient({
   uri: awsconfig.aws_appsync_graphqlEndpoint,
   cache: new InMemoryCache(),
+  headers: {
+    'x-api-key': awsconfig.aws_appsync_apiKey,
+  },
 });
 
 const App = () => {

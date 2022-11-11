@@ -4,42 +4,48 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import {listTodos} from '../graphql/queries';
-import {API, graphqlOperation} from 'aws-amplify';
-import {CreateTodoInput, ListTodosQuery, Todo} from '../../graphql-generated';
-import {createTodo} from '../graphql/mutations';
+import {
+  CreateTodoMutation,
+  CreateTodoMutationVariables,
+  ListTodosQuery,
+  ListTodosQueryVariables,
+} from '../../graphql-generated';
+import {createTodo as createTodoMutation} from '../graphql/mutations';
+import {gql, useMutation, useQuery} from '@apollo/client';
 
 export const HomeScreen = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
-
-  const getTodos = async () => {
-    try {
-      const res = (await API.graphql(graphqlOperation(listTodos))) as {
-        data: ListTodosQuery;
-      };
-      if (res.data.listTodos?.items) {
-        // @ts-ignore
-        setTodos(res.data.listTodos?.items);
-      }
-    } catch (err) {
-      console.log('ERR', err);
-    }
-  };
+  const {data, refetch} = useQuery<ListTodosQuery, ListTodosQueryVariables>(
+    gql(listTodos),
+    {
+      onError: error => Alert.alert(error.message),
+    },
+  );
+  const [createTodo] = useMutation<
+    CreateTodoMutation,
+    CreateTodoMutationVariables
+  >(gql(createTodoMutation), {
+    onCompleted: res => {
+      console.log('COMPLETED', res);
+    },
+    onError: error => {
+      console.log('ERROR', error);
+    },
+  });
 
   const addTodo = async () => {
-    try {
-      const todo: CreateTodoInput = {
-        id: Math.random().toString(),
-        name: `Todo ${Math.round(Math.random() * 10)}`,
-        description: 'Description',
-      };
-
-      await API.graphql(graphqlOperation(createTodo, {input: todo}));
-    } catch (err) {
-      console.log('ERR', err);
-    }
+    await createTodo({
+      variables: {
+        input: {
+          id: Math.random().toString(),
+          name: `Todo ${Math.round(Math.random() * 100)}`,
+          description: 'Todo description',
+        },
+      },
+    });
   };
 
   return (
@@ -48,12 +54,12 @@ export const HomeScreen = () => {
         <TouchableOpacity onPress={addTodo}>
           <Text style={styles.button}>Add todo</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={getTodos}>
+        <TouchableOpacity onPress={() => refetch()}>
           <Text style={styles.button}>Get todos</Text>
         </TouchableOpacity>
         <View>
-          {todos.map(item => (
-            <Text key={item.id}>{item.name}</Text>
+          {data?.listTodos?.items.map(item => (
+            <Text key={item?.id}>{item?.name}</Text>
           ))}
         </View>
       </View>
