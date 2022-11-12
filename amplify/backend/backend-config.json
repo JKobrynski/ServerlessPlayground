@@ -50,5 +50,13 @@
         }
       ]
     }
+  },
+  "storage": {
+    "Todoj2vjatrbindrhmnnue55tthgk4dev": {
+      "service": "DynamoDB",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": []
+    }
   }
 }

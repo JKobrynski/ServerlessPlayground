@@ -24,6 +24,16 @@
           "deploymentBucketName": "amplify-serverlessplayground-dev-151631-deployment",
           "s3Key": "amplify-builds/testMutationLambda-4e4e6566427754504631-build.zip"
         }
+      },
+      "storage": {
+        "Todoj2vjatrbindrhmnnue55tthgk4dev": {
+          "tableName": "Todo-j2vjatrbindrhmnnue55tthgk4-dev",
+          "region": "eu-central-1",
+          "arn": "arn:aws:dynamodb:eu-central-1:965923311319:table/Todo-j2vjatrbindrhmnnue55tthgk4-dev",
+          "streamArn": "arn:aws:dynamodb:eu-central-1:965923311319:table/Todo-j2vjatrbindrhmnnue55tthgk4-dev/stream/2022-11-11T15:51:51.033",
+          "partitionKeyName": "id",
+          "partitionKeyType": "S"
+        }
       }
     }
   }
