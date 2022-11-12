@@ -11,7 +11,7 @@
     "generate-types": "graphql-codegen --config codegen.yml",
     "amplify:testLambda": "cd amplify/backend/function/testLambda/src && tsc",
     "amplify:testMutationLambda": "cd amplify/backend/function/testMutationLambda/src && tsc",
-    "amplify:addTodoLambda": "cd amplify/backend/function/testMutationLambda/src && tsc",
+    "amplify:addTodoLambda": "cd amplify/backend/function/addTodoLambda/src && tsc",
     "build:functions": "yarn amplify:testLambda && yarn amplify:testMutationLambda && yarn amplify:addTodoLambda"
   },
   "dependencies": {

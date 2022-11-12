@@ -26,7 +26,7 @@
         },
         "addTodoLambda": {
           "deploymentBucketName": "amplify-serverlessplayground-dev-151631-deployment",
-          "s3Key": "amplify-builds/addTodoLambda-46424772633076557053-build.zip"
+          "s3Key": "amplify-builds/addTodoLambda-386336324d5765354874-build.zip"
         }
       },
       "storage": {

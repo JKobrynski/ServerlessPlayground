@@ -8,6 +8,7 @@ import {
 import React from 'react';
 import {
   TodoItemFragment,
+  useAddTodoLambdaMutation,
   useCreateTodoMutation,
   useDeleteTodoMutation,
   useListTodosQuery,
@@ -41,7 +42,7 @@ export const HomeScreen = () => {
     },
     onError: error => console.log('LAMBDA ERR', error.graphQLErrors),
   });
-  const [testMutationLambda] = useTestMutationLambdaMutation({
+  const [addTodoLambda] = useAddTodoLambdaMutation({
     onCompleted: (res, clientOptions) => {
       console.log('RES', res);
       console.log('CLIENT OPTIONS', clientOptions);
@@ -76,7 +77,7 @@ export const HomeScreen = () => {
   };
 
   const onMutate = async () => {
-    await testMutationLambda({
+    await addTodoLambda({
       variables: {
         geohashes: ['gbsuv7z', 'gbsuv7'],
       },

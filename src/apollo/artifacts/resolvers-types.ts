@@ -213,10 +213,15 @@ export type ModelTodoFilterInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addTodoLambda?: Maybe<Scalars['String']>;
   createTodo?: Maybe<Todo>;
   deleteTodo?: Maybe<Todo>;
   testMutationLambda?: Maybe<Scalars['String']>;
   updateTodo?: Maybe<Todo>;
+};
+
+export type MutationAddTodoLambdaArgs = {
+  geohashes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type MutationCreateTodoArgs = {
@@ -300,6 +305,17 @@ export type TodoItemFragment = {
   description?: string | null;
   createdAt: any;
   updatedAt: any;
+};
+
+export type AddTodoLambdaMutationVariables = Exact<{
+  geohashes?: InputMaybe<
+    Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>
+  >;
+}>;
+
+export type AddTodoLambdaMutation = {
+  __typename?: 'Mutation';
+  addTodoLambda?: string | null;
 };
 
 export type TestMutationLambdaMutationVariables = Exact<{
@@ -388,6 +404,54 @@ export const TodoItemFragmentDoc = gql`
     updatedAt
   }
 `;
+export const AddTodoLambdaDocument = gql`
+  mutation AddTodoLambda($geohashes: [String]) {
+    addTodoLambda(geohashes: $geohashes)
+  }
+`;
+export type AddTodoLambdaMutationFn = Apollo.MutationFunction<
+  AddTodoLambdaMutation,
+  AddTodoLambdaMutationVariables
+>;
+
+/**
+ * __useAddTodoLambdaMutation__
+ *
+ * To run a mutation, you first call `useAddTodoLambdaMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddTodoLambdaMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addTodoLambdaMutation, { data, loading, error }] = useAddTodoLambdaMutation({
+ *   variables: {
+ *      geohashes: // value for 'geohashes'
+ *   },
+ * });
+ */
+export function useAddTodoLambdaMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    AddTodoLambdaMutation,
+    AddTodoLambdaMutationVariables
+  >,
+) {
+  const options = {...defaultOptions, ...baseOptions};
+  return Apollo.useMutation<
+    AddTodoLambdaMutation,
+    AddTodoLambdaMutationVariables
+  >(AddTodoLambdaDocument, options);
+}
+export type AddTodoLambdaMutationHookResult = ReturnType<
+  typeof useAddTodoLambdaMutation
+>;
+export type AddTodoLambdaMutationResult =
+  Apollo.MutationResult<AddTodoLambdaMutation>;
+export type AddTodoLambdaMutationOptions = Apollo.BaseMutationOptions<
+  AddTodoLambdaMutation,
+  AddTodoLambdaMutationVariables
+>;
 export const TestMutationLambdaDocument = gql`
   mutation TestMutationLambda($geohashes: [String]) {
     testMutationLambda(geohashes: $geohashes)
