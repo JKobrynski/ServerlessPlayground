@@ -10,5 +10,5 @@ type Todo @model {
 }
 
 type Query {
-  testLambda(message: String): String @function(name: "testLambda")
+  testLambda(message: String): String @function(name: "testLambda-${env}")
 }

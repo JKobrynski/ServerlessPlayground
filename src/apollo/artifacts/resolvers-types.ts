@@ -331,6 +331,15 @@ export type DeleteTodoMutation = {
   } | null;
 };
 
+export type TestLambdaQueryVariables = Exact<{
+  message?: InputMaybe<Scalars['String']>;
+}>;
+
+export type TestLambdaQuery = {
+  __typename?: 'Query';
+  testLambda?: string | null;
+};
+
 export type ListTodosQueryVariables = Exact<{
   filter?: InputMaybe<ModelTodoFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -478,6 +487,60 @@ export type DeleteTodoMutationResult =
 export type DeleteTodoMutationOptions = Apollo.BaseMutationOptions<
   DeleteTodoMutation,
   DeleteTodoMutationVariables
+>;
+export const TestLambdaDocument = gql`
+  query TestLambda($message: String) {
+    testLambda(message: $message)
+  }
+`;
+
+/**
+ * __useTestLambdaQuery__
+ *
+ * To run a query within a React component, call `useTestLambdaQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTestLambdaQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTestLambdaQuery({
+ *   variables: {
+ *      message: // value for 'message'
+ *   },
+ * });
+ */
+export function useTestLambdaQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    TestLambdaQuery,
+    TestLambdaQueryVariables
+  >,
+) {
+  const options = {...defaultOptions, ...baseOptions};
+  return Apollo.useQuery<TestLambdaQuery, TestLambdaQueryVariables>(
+    TestLambdaDocument,
+    options,
+  );
+}
+export function useTestLambdaLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    TestLambdaQuery,
+    TestLambdaQueryVariables
+  >,
+) {
+  const options = {...defaultOptions, ...baseOptions};
+  return Apollo.useLazyQuery<TestLambdaQuery, TestLambdaQueryVariables>(
+    TestLambdaDocument,
+    options,
+  );
+}
+export type TestLambdaQueryHookResult = ReturnType<typeof useTestLambdaQuery>;
+export type TestLambdaLazyQueryHookResult = ReturnType<
+  typeof useTestLambdaLazyQuery
+>;
+export type TestLambdaQueryResult = Apollo.QueryResult<
+  TestLambdaQuery,
+  TestLambdaQueryVariables
 >;
 export const ListTodosDocument = gql`
   query ListTodos(

@@ -11,6 +11,7 @@ import {
   useCreateTodoMutation,
   useDeleteTodoMutation,
   useListTodosQuery,
+  useTestLambdaQuery,
 } from '../apollo/artifacts/resolvers-types';
 
 export const HomeScreen = () => {
@@ -33,6 +34,14 @@ export const HomeScreen = () => {
       console.log('ERROR', error);
     },
   });
+  const {data: lambdaData} = useTestLambdaQuery({
+    variables: {
+      message: 'Ogarniemy to stary',
+    },
+    onError: error => console.log('LAMBDA ERR', error.graphQLErrors),
+  });
+
+  console.log(lambdaData);
 
   const addTodo = async () => {
     await createTodo({
