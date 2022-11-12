@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "api": {
+      "serverlessplayground": [
+        "Query",
+        "Mutation",
+        "Subscription"
+      ]
+    },
+    "storage": {
+      "Todoj2vjatrbindrhmnnue55tthgk4dev": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "Todo:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

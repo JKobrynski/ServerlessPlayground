@@ -23,6 +23,10 @@
         "testMutationLambda": {
           "deploymentBucketName": "amplify-serverlessplayground-dev-151631-deployment",
           "s3Key": "amplify-builds/testMutationLambda-4e4e6566427754504631-build.zip"
+        },
+        "addTodoLambda": {
+          "deploymentBucketName": "amplify-serverlessplayground-dev-151631-deployment",
+          "s3Key": "amplify-builds/addTodoLambda-46424772633076557053-build.zip"
         }
       },
       "storage": {

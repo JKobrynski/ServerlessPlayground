@@ -152,6 +152,14 @@ export type TestMutationLambdaMutation = {
   testMutationLambda?: string | null,
 };
 
+export type AddTodoLambdaMutationVariables = {
+  geohashes?: Array< string | null > | null,
+};
+
+export type AddTodoLambdaMutation = {
+  addTodoLambda?: string | null,
+};
+
 export type CreateTodoMutationVariables = {
   input: CreateTodoInput,
   condition?: ModelTodoConditionInput | null,

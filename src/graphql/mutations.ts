@@ -7,6 +7,11 @@ export const testMutationLambda = /* GraphQL */ `
     testMutationLambda(geohashes: $geohashes)
   }
 `;
+export const addTodoLambda = /* GraphQL */ `
+  mutation AddTodoLambda($geohashes: [String]) {
+    addTodoLambda(geohashes: $geohashes)
+  }
+`;
 export const createTodo = /* GraphQL */ `
   mutation CreateTodo(
     $input: CreateTodoInput!
