@@ -192,6 +192,14 @@ export type DeleteTodoMutation = {
   } | null,
 };
 
+export type TestLambdaQueryVariables = {
+  message?: string | null,
+};
+
+export type TestLambdaQuery = {
+  testLambda?: string | null,
+};
+
 export type GetTodoQueryVariables = {
   id: string,
 };

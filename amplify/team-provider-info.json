@@ -14,6 +14,12 @@
     "categories": {
       "api": {
         "serverlessplayground": {}
+      },
+      "function": {
+        "testLambda": {
+          "deploymentBucketName": "amplify-serverlessplayground-dev-151631-deployment",
+          "s3Key": "amplify-builds/testLambda-42665752366f734d576d-build.zip"
+        }
       }
     }
   }

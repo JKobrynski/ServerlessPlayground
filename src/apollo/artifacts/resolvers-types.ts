@@ -237,6 +237,7 @@ export type Query = {
   __typename?: 'Query';
   getTodo?: Maybe<Todo>;
   listTodos?: Maybe<ModelTodoConnection>;
+  testLambda?: Maybe<Scalars['String']>;
 };
 
 export type QueryGetTodoArgs = {
@@ -247,6 +248,10 @@ export type QueryListTodosArgs = {
   filter?: InputMaybe<ModelTodoFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
+};
+
+export type QueryTestLambdaArgs = {
+  message?: InputMaybe<Scalars['String']>;
 };
 
 export type Subscription = {
