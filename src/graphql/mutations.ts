@@ -2,6 +2,11 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const testMutationLambda = /* GraphQL */ `
+  mutation TestMutationLambda($geohashes: [String]) {
+    testMutationLambda(geohashes: $geohashes)
+  }
+`;
 export const createTodo = /* GraphQL */ `
   mutation CreateTodo(
     $input: CreateTodoInput!

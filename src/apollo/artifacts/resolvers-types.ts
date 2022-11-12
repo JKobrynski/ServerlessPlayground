@@ -215,6 +215,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createTodo?: Maybe<Todo>;
   deleteTodo?: Maybe<Todo>;
+  testMutationLambda?: Maybe<Scalars['String']>;
   updateTodo?: Maybe<Todo>;
 };
 
@@ -226,6 +227,10 @@ export type MutationCreateTodoArgs = {
 export type MutationDeleteTodoArgs = {
   condition?: InputMaybe<ModelTodoConditionInput>;
   input: DeleteTodoInput;
+};
+
+export type MutationTestMutationLambdaArgs = {
+  geohashes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type MutationUpdateTodoArgs = {
@@ -295,6 +300,17 @@ export type TodoItemFragment = {
   description?: string | null;
   createdAt: any;
   updatedAt: any;
+};
+
+export type TestMutationLambdaMutationVariables = Exact<{
+  geohashes?: InputMaybe<
+    Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>
+  >;
+}>;
+
+export type TestMutationLambdaMutation = {
+  __typename?: 'Mutation';
+  testMutationLambda?: string | null;
 };
 
 export type CreateTodoMutationVariables = Exact<{
@@ -372,6 +388,54 @@ export const TodoItemFragmentDoc = gql`
     updatedAt
   }
 `;
+export const TestMutationLambdaDocument = gql`
+  mutation TestMutationLambda($geohashes: [String]) {
+    testMutationLambda(geohashes: $geohashes)
+  }
+`;
+export type TestMutationLambdaMutationFn = Apollo.MutationFunction<
+  TestMutationLambdaMutation,
+  TestMutationLambdaMutationVariables
+>;
+
+/**
+ * __useTestMutationLambdaMutation__
+ *
+ * To run a mutation, you first call `useTestMutationLambdaMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTestMutationLambdaMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [testMutationLambdaMutation, { data, loading, error }] = useTestMutationLambdaMutation({
+ *   variables: {
+ *      geohashes: // value for 'geohashes'
+ *   },
+ * });
+ */
+export function useTestMutationLambdaMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    TestMutationLambdaMutation,
+    TestMutationLambdaMutationVariables
+  >,
+) {
+  const options = {...defaultOptions, ...baseOptions};
+  return Apollo.useMutation<
+    TestMutationLambdaMutation,
+    TestMutationLambdaMutationVariables
+  >(TestMutationLambdaDocument, options);
+}
+export type TestMutationLambdaMutationHookResult = ReturnType<
+  typeof useTestMutationLambdaMutation
+>;
+export type TestMutationLambdaMutationResult =
+  Apollo.MutationResult<TestMutationLambdaMutation>;
+export type TestMutationLambdaMutationOptions = Apollo.BaseMutationOptions<
+  TestMutationLambdaMutation,
+  TestMutationLambdaMutationVariables
+>;
 export const CreateTodoDocument = gql`
   mutation CreateTodo(
     $input: CreateTodoInput!

@@ -12,3 +12,8 @@ type Todo @model {
 type Query {
   testLambda(message: String): String @function(name: "testLambda-${env}")
 }
+
+type Mutation {
+  testMutationLambda(geohashes: [String]): String
+    @function(name: "testMutationLambda-${env}")
+}

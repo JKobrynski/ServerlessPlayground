@@ -12,6 +12,7 @@ import {
   useDeleteTodoMutation,
   useListTodosQuery,
   useTestLambdaQuery,
+  useTestMutationLambdaMutation,
 } from '../apollo/artifacts/resolvers-types';
 
 export const HomeScreen = () => {
@@ -40,8 +41,15 @@ export const HomeScreen = () => {
     },
     onError: error => console.log('LAMBDA ERR', error.graphQLErrors),
   });
-
-  console.log(lambdaData);
+  const [testMutationLambda] = useTestMutationLambdaMutation({
+    onCompleted: (res, clientOptions) => {
+      console.log('RES', res);
+      console.log('CLIENT OPTIONS', clientOptions);
+    },
+    onError: error => {
+      console.log('ERROR', error);
+    },
+  });
 
   const addTodo = async () => {
     await createTodo({
@@ -67,6 +75,14 @@ export const HomeScreen = () => {
     }
   };
 
+  const onMutate = async () => {
+    await testMutationLambda({
+      variables: {
+        geohashes: ['gbsuv7z', 'gbsuv7'],
+      },
+    });
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -75,6 +91,9 @@ export const HomeScreen = () => {
         </TouchableOpacity>
         <TouchableOpacity onPress={() => refetch()}>
           <Text style={styles.button}>Get todos</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onMutate}>
+          <Text style={styles.button}>Run testMutationLambda</Text>
         </TouchableOpacity>
         <View>
           {data?.listTodos?.items.map(item => (
