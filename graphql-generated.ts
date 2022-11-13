@@ -75,6 +75,49 @@ export type DeleteTodoInput = {
   id: string,
 };
 
+export type CreateUserInput = {
+  createdAt?: string | null,
+  email?: string | null,
+  id?: string | null,
+  phoneNumber?: string | null,
+  updatedAt?: string | null,
+  username?: string | null,
+};
+
+export type ModelUserConditionInput = {
+  createdAt?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  phoneNumber?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  username?: ModelStringInput | null,
+  and?: Array< ModelUserConditionInput | null > | null,
+  or?: Array< ModelUserConditionInput | null > | null,
+  not?: ModelUserConditionInput | null,
+};
+
+export type User = {
+  __typename: "User",
+  createdAt?: string | null,
+  email?: string | null,
+  id: string,
+  phoneNumber?: string | null,
+  updatedAt?: string | null,
+  username?: string | null,
+};
+
+export type UpdateUserInput = {
+  createdAt?: string | null,
+  email?: string | null,
+  id: string,
+  phoneNumber?: string | null,
+  updatedAt?: string | null,
+  username?: string | null,
+};
+
+export type DeleteUserInput = {
+  id: string,
+};
+
 export type ModelTodoFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
@@ -103,6 +146,24 @@ export type ModelIDInput = {
 export type ModelTodoConnection = {
   __typename: "ModelTodoConnection",
   items:  Array<Todo | null >,
+  nextToken?: string | null,
+};
+
+export type ModelUserFilterInput = {
+  createdAt?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  id?: ModelIDInput | null,
+  phoneNumber?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  username?: ModelStringInput | null,
+  and?: Array< ModelUserFilterInput | null > | null,
+  or?: Array< ModelUserFilterInput | null > | null,
+  not?: ModelUserFilterInput | null,
+};
+
+export type ModelUserConnection = {
+  __typename: "ModelUserConnection",
+  items:  Array<User | null >,
   nextToken?: string | null,
 };
 
@@ -142,6 +203,17 @@ export type ModelSubscriptionStringInput = {
   beginsWith?: string | null,
   in?: Array< string | null > | null,
   notIn?: Array< string | null > | null,
+};
+
+export type ModelSubscriptionUserFilterInput = {
+  createdAt?: ModelSubscriptionStringInput | null,
+  email?: ModelSubscriptionStringInput | null,
+  id?: ModelSubscriptionIDInput | null,
+  phoneNumber?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  username?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionUserFilterInput | null > | null,
+  or?: Array< ModelSubscriptionUserFilterInput | null > | null,
 };
 
 export type AddTodoLambdaMutationVariables = {
@@ -200,6 +272,57 @@ export type DeleteTodoMutation = {
   } | null,
 };
 
+export type CreateUserMutationVariables = {
+  input: CreateUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type CreateUserMutation = {
+  createUser?:  {
+    __typename: "User",
+    createdAt?: string | null,
+    email?: string | null,
+    id: string,
+    phoneNumber?: string | null,
+    updatedAt?: string | null,
+    username?: string | null,
+  } | null,
+};
+
+export type UpdateUserMutationVariables = {
+  input: UpdateUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type UpdateUserMutation = {
+  updateUser?:  {
+    __typename: "User",
+    createdAt?: string | null,
+    email?: string | null,
+    id: string,
+    phoneNumber?: string | null,
+    updatedAt?: string | null,
+    username?: string | null,
+  } | null,
+};
+
+export type DeleteUserMutationVariables = {
+  input: DeleteUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type DeleteUserMutation = {
+  deleteUser?:  {
+    __typename: "User",
+    createdAt?: string | null,
+    email?: string | null,
+    id: string,
+    phoneNumber?: string | null,
+    updatedAt?: string | null,
+    username?: string | null,
+  } | null,
+};
+
 export type TestLambdaQueryVariables = {
   message?: string | null,
 };
@@ -239,6 +362,44 @@ export type ListTodosQuery = {
       description?: string | null,
       createdAt: string,
       updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetUserQueryVariables = {
+  id: string,
+};
+
+export type GetUserQuery = {
+  getUser?:  {
+    __typename: "User",
+    createdAt?: string | null,
+    email?: string | null,
+    id: string,
+    phoneNumber?: string | null,
+    updatedAt?: string | null,
+    username?: string | null,
+  } | null,
+};
+
+export type ListUsersQueryVariables = {
+  filter?: ModelUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListUsersQuery = {
+  listUsers?:  {
+    __typename: "ModelUserConnection",
+    items:  Array< {
+      __typename: "User",
+      createdAt?: string | null,
+      email?: string | null,
+      id: string,
+      phoneNumber?: string | null,
+      updatedAt?: string | null,
+      username?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -286,5 +447,53 @@ export type OnDeleteTodoSubscription = {
     description?: string | null,
     createdAt: string,
     updatedAt: string,
+  } | null,
+};
+
+export type OnCreateUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+};
+
+export type OnCreateUserSubscription = {
+  onCreateUser?:  {
+    __typename: "User",
+    createdAt?: string | null,
+    email?: string | null,
+    id: string,
+    phoneNumber?: string | null,
+    updatedAt?: string | null,
+    username?: string | null,
+  } | null,
+};
+
+export type OnUpdateUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+};
+
+export type OnUpdateUserSubscription = {
+  onUpdateUser?:  {
+    __typename: "User",
+    createdAt?: string | null,
+    email?: string | null,
+    id: string,
+    phoneNumber?: string | null,
+    updatedAt?: string | null,
+    username?: string | null,
+  } | null,
+};
+
+export type OnDeleteUserSubscriptionVariables = {
+  filter?: ModelSubscriptionUserFilterInput | null,
+};
+
+export type OnDeleteUserSubscription = {
+  onDeleteUser?:  {
+    __typename: "User",
+    createdAt?: string | null,
+    email?: string | null,
+    id: string,
+    phoneNumber?: string | null,
+    updatedAt?: string | null,
+    username?: string | null,
   } | null,
 };

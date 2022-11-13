@@ -9,6 +9,15 @@ type Todo @model {
   description: String
 }
 
+type User @model {
+  createdAt: AWSDateTime
+  email: String
+  id: ID!
+  phoneNumber: String
+  updatedAt: AWSDateTime
+  username: String
+}
+
 type Query {
   testLambda(message: String): String @function(name: "testLambda-${env}")
 }

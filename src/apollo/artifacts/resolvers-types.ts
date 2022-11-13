@@ -22,7 +22,20 @@ export type CreateTodoInput = {
   name: Scalars['String'];
 };
 
+export type CreateUserInput = {
+  createdAt?: InputMaybe<Scalars['AWSDateTime']>;
+  email?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  phoneNumber?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['AWSDateTime']>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
 export type DeleteTodoInput = {
+  id: Scalars['ID'];
+};
+
+export type DeleteUserInput = {
   id: Scalars['ID'];
 };
 
@@ -184,6 +197,17 @@ export type ModelSubscriptionTodoFilterInput = {
   or?: InputMaybe<Array<InputMaybe<ModelSubscriptionTodoFilterInput>>>;
 };
 
+export type ModelSubscriptionUserFilterInput = {
+  and?: InputMaybe<Array<InputMaybe<ModelSubscriptionUserFilterInput>>>;
+  createdAt?: InputMaybe<ModelSubscriptionStringInput>;
+  email?: InputMaybe<ModelSubscriptionStringInput>;
+  id?: InputMaybe<ModelSubscriptionIdInput>;
+  or?: InputMaybe<Array<InputMaybe<ModelSubscriptionUserFilterInput>>>;
+  phoneNumber?: InputMaybe<ModelSubscriptionStringInput>;
+  updatedAt?: InputMaybe<ModelSubscriptionStringInput>;
+  username?: InputMaybe<ModelSubscriptionStringInput>;
+};
+
 export type ModelTodoConditionInput = {
   and?: InputMaybe<Array<InputMaybe<ModelTodoConditionInput>>>;
   description?: InputMaybe<ModelStringInput>;
@@ -207,12 +231,44 @@ export type ModelTodoFilterInput = {
   or?: InputMaybe<Array<InputMaybe<ModelTodoFilterInput>>>;
 };
 
+export type ModelUserConditionInput = {
+  and?: InputMaybe<Array<InputMaybe<ModelUserConditionInput>>>;
+  createdAt?: InputMaybe<ModelStringInput>;
+  email?: InputMaybe<ModelStringInput>;
+  not?: InputMaybe<ModelUserConditionInput>;
+  or?: InputMaybe<Array<InputMaybe<ModelUserConditionInput>>>;
+  phoneNumber?: InputMaybe<ModelStringInput>;
+  updatedAt?: InputMaybe<ModelStringInput>;
+  username?: InputMaybe<ModelStringInput>;
+};
+
+export type ModelUserConnection = {
+  __typename?: 'ModelUserConnection';
+  items: Array<Maybe<User>>;
+  nextToken?: Maybe<Scalars['String']>;
+};
+
+export type ModelUserFilterInput = {
+  and?: InputMaybe<Array<InputMaybe<ModelUserFilterInput>>>;
+  createdAt?: InputMaybe<ModelStringInput>;
+  email?: InputMaybe<ModelStringInput>;
+  id?: InputMaybe<ModelIdInput>;
+  not?: InputMaybe<ModelUserFilterInput>;
+  or?: InputMaybe<Array<InputMaybe<ModelUserFilterInput>>>;
+  phoneNumber?: InputMaybe<ModelStringInput>;
+  updatedAt?: InputMaybe<ModelStringInput>;
+  username?: InputMaybe<ModelStringInput>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   addTodoLambda?: Maybe<Scalars['String']>;
   createTodo?: Maybe<Todo>;
+  createUser?: Maybe<User>;
   deleteTodo?: Maybe<Todo>;
+  deleteUser?: Maybe<User>;
   updateTodo?: Maybe<Todo>;
+  updateUser?: Maybe<User>;
 };
 
 
@@ -227,9 +283,21 @@ export type MutationCreateTodoArgs = {
 };
 
 
+export type MutationCreateUserArgs = {
+  condition?: InputMaybe<ModelUserConditionInput>;
+  input: CreateUserInput;
+};
+
+
 export type MutationDeleteTodoArgs = {
   condition?: InputMaybe<ModelTodoConditionInput>;
   input: DeleteTodoInput;
+};
+
+
+export type MutationDeleteUserArgs = {
+  condition?: InputMaybe<ModelUserConditionInput>;
+  input: DeleteUserInput;
 };
 
 
@@ -238,10 +306,18 @@ export type MutationUpdateTodoArgs = {
   input: UpdateTodoInput;
 };
 
+
+export type MutationUpdateUserArgs = {
+  condition?: InputMaybe<ModelUserConditionInput>;
+  input: UpdateUserInput;
+};
+
 export type Query = {
   __typename?: 'Query';
   getTodo?: Maybe<Todo>;
+  getUser?: Maybe<User>;
   listTodos?: Maybe<ModelTodoConnection>;
+  listUsers?: Maybe<ModelUserConnection>;
   testLambda?: Maybe<Scalars['String']>;
 };
 
@@ -251,8 +327,20 @@ export type QueryGetTodoArgs = {
 };
 
 
+export type QueryGetUserArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type QueryListTodosArgs = {
   filter?: InputMaybe<ModelTodoFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  nextToken?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryListUsersArgs = {
+  filter?: InputMaybe<ModelUserFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
 };
@@ -265,8 +353,11 @@ export type QueryTestLambdaArgs = {
 export type Subscription = {
   __typename?: 'Subscription';
   onCreateTodo?: Maybe<Todo>;
+  onCreateUser?: Maybe<User>;
   onDeleteTodo?: Maybe<Todo>;
+  onDeleteUser?: Maybe<User>;
   onUpdateTodo?: Maybe<Todo>;
+  onUpdateUser?: Maybe<User>;
 };
 
 
@@ -275,13 +366,28 @@ export type SubscriptionOnCreateTodoArgs = {
 };
 
 
+export type SubscriptionOnCreateUserArgs = {
+  filter?: InputMaybe<ModelSubscriptionUserFilterInput>;
+};
+
+
 export type SubscriptionOnDeleteTodoArgs = {
   filter?: InputMaybe<ModelSubscriptionTodoFilterInput>;
 };
 
 
+export type SubscriptionOnDeleteUserArgs = {
+  filter?: InputMaybe<ModelSubscriptionUserFilterInput>;
+};
+
+
 export type SubscriptionOnUpdateTodoArgs = {
   filter?: InputMaybe<ModelSubscriptionTodoFilterInput>;
+};
+
+
+export type SubscriptionOnUpdateUserArgs = {
+  filter?: InputMaybe<ModelSubscriptionUserFilterInput>;
 };
 
 export type Todo = {
@@ -299,7 +405,28 @@ export type UpdateTodoInput = {
   name?: InputMaybe<Scalars['String']>;
 };
 
+export type UpdateUserInput = {
+  createdAt?: InputMaybe<Scalars['AWSDateTime']>;
+  email?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
+  phoneNumber?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['AWSDateTime']>;
+  username?: InputMaybe<Scalars['String']>;
+};
+
+export type User = {
+  __typename?: 'User';
+  createdAt?: Maybe<Scalars['AWSDateTime']>;
+  email?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  phoneNumber?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['AWSDateTime']>;
+  username?: Maybe<Scalars['String']>;
+};
+
 export type TodoItemFragment = { __typename: 'Todo', id: string, name: string, description?: string | null, createdAt: any, updatedAt: any };
+
+export type UserDataFragment = { __typename: 'User', createdAt?: any | null, email?: string | null, id: string, phoneNumber?: string | null, updatedAt?: any | null, username?: string | null };
 
 export type AddTodoLambdaMutationVariables = Exact<{
   geohashes?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
@@ -324,6 +451,14 @@ export type DeleteTodoMutationVariables = Exact<{
 
 export type DeleteTodoMutation = { __typename?: 'Mutation', deleteTodo?: { __typename?: 'Todo', id: string, name: string, description?: string | null, createdAt: any, updatedAt: any } | null };
 
+export type CreateUserMutationVariables = Exact<{
+  input: CreateUserInput;
+  condition?: InputMaybe<ModelUserConditionInput>;
+}>;
+
+
+export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typename: 'User', createdAt?: any | null, email?: string | null, id: string, phoneNumber?: string | null, updatedAt?: any | null, username?: string | null } | null };
+
 export type TestLambdaQueryVariables = Exact<{
   message?: InputMaybe<Scalars['String']>;
 }>;
@@ -340,6 +475,13 @@ export type ListTodosQueryVariables = Exact<{
 
 export type ListTodosQuery = { __typename?: 'Query', listTodos?: { __typename?: 'ModelTodoConnection', nextToken?: string | null, items: Array<{ __typename: 'Todo', id: string, name: string, description?: string | null, createdAt: any, updatedAt: any } | null> } | null };
 
+export type GetUserQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetUserQuery = { __typename?: 'Query', getUser?: { __typename: 'User', createdAt?: any | null, email?: string | null, id: string, phoneNumber?: string | null, updatedAt?: any | null, username?: string | null } | null };
+
 export const TodoItemFragmentDoc = gql`
     fragment TodoItem on Todo {
   __typename
@@ -348,6 +490,17 @@ export const TodoItemFragmentDoc = gql`
   description
   createdAt
   updatedAt
+}
+    `;
+export const UserDataFragmentDoc = gql`
+    fragment UserData on User {
+  __typename
+  createdAt
+  email
+  id
+  phoneNumber
+  updatedAt
+  username
 }
     `;
 export const AddTodoLambdaDocument = gql`
@@ -457,6 +610,40 @@ export function useDeleteTodoMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeleteTodoMutationHookResult = ReturnType<typeof useDeleteTodoMutation>;
 export type DeleteTodoMutationResult = Apollo.MutationResult<DeleteTodoMutation>;
 export type DeleteTodoMutationOptions = Apollo.BaseMutationOptions<DeleteTodoMutation, DeleteTodoMutationVariables>;
+export const CreateUserDocument = gql`
+    mutation CreateUser($input: CreateUserInput!, $condition: ModelUserConditionInput) {
+  createUser(input: $input, condition: $condition) {
+    ...UserData
+  }
+}
+    ${UserDataFragmentDoc}`;
+export type CreateUserMutationFn = Apollo.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
+
+/**
+ * __useCreateUserMutation__
+ *
+ * To run a mutation, you first call `useCreateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createUserMutation, { data, loading, error }] = useCreateUserMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *      condition: // value for 'condition'
+ *   },
+ * });
+ */
+export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, options);
+      }
+export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
+export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
+export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
 export const TestLambdaDocument = gql`
     query TestLambda($message: String) {
   testLambda(message: $message)
@@ -530,6 +717,41 @@ export function useListTodosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type ListTodosQueryHookResult = ReturnType<typeof useListTodosQuery>;
 export type ListTodosLazyQueryHookResult = ReturnType<typeof useListTodosLazyQuery>;
 export type ListTodosQueryResult = Apollo.QueryResult<ListTodosQuery, ListTodosQueryVariables>;
+export const GetUserDocument = gql`
+    query GetUser($id: ID!) {
+  getUser(id: $id) {
+    ...UserData
+  }
+}
+    ${UserDataFragmentDoc}`;
+
+/**
+ * __useGetUserQuery__
+ *
+ * To run a query within a React component, call `useGetUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetUserQuery(baseOptions: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+      }
+export function useGetUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+        }
+export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
+export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
+export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
 
       export interface PossibleTypesResultData {
         possibleTypes: {
