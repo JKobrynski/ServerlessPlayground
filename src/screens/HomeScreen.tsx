@@ -14,13 +14,9 @@ import {
   useListTodosQuery,
   useTestLambdaQuery,
 } from '../apollo/artifacts/resolvers-types';
-import {ActiveScreen} from '../../App';
+import {Auth} from 'aws-amplify';
 
-type HomeScreenProps = {
-  setActiveScreen: (screen: ActiveScreen) => void;
-};
-
-export const HomeScreen: React.FC<HomeScreenProps> = ({setActiveScreen}) => {
+export const HomeScreen = () => {
   const {data, refetch} = useListTodosQuery({
     onError: error => console.log('ERROR', error),
   });
@@ -88,6 +84,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({setActiveScreen}) => {
     });
   };
 
+  const onLogout = async () => {
+    try {
+      await Auth.signOut();
+    } catch (err) {
+      console.log('ERR', err);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -110,6 +114,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({setActiveScreen}) => {
             </View>
           ))}
         </View>
+        <TouchableOpacity onPress={onLogout}>
+          <Text style={styles.logout}>Logout</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -141,5 +148,11 @@ const styles = StyleSheet.create({
     color: 'red',
     fontWeight: '800',
     fontSize: 14,
+  },
+  logout: {
+    textTransform: 'uppercase',
+    fontWeight: '600',
+    fontSize: 16,
+    color: 'red',
   },
 });

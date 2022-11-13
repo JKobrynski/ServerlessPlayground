@@ -9,14 +9,11 @@
  */
 
 import React from 'react';
-import {
-  HomeScreen,
-  LandingScreen,
-  SignInScreen,
-  SignUpScreen,
-} from './src/screens';
 import awsconfig from './src/aws-exports';
 import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
+import {NavigationContainer} from '@react-navigation/native';
+import {Hub} from 'aws-amplify';
+import {AuthStack, MainStack} from './src/navigation';
 
 const client = new ApolloClient({
   uri: awsconfig.aws_appsync_graphqlEndpoint,
@@ -26,27 +23,33 @@ const client = new ApolloClient({
   },
 });
 
-export type ActiveScreen = 'Landing' | 'SignUp' | 'SignIn' | 'Home';
-
 const App = () => {
-  const [activeScreen, setActiveScreen] =
-    React.useState<ActiveScreen>('Landing');
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
 
-  const renderActiveScreen = () => {
-    switch (activeScreen) {
-      case 'Landing':
-        return <LandingScreen setActiveScreen={setActiveScreen} />;
-      case 'SignUp':
-        return <SignUpScreen setActiveScreen={setActiveScreen} />;
-      case 'SignIn':
-        return <SignInScreen setActiveScreen={setActiveScreen} />;
-      case 'Home':
-        return <HomeScreen setActiveScreen={setActiveScreen} />;
-    }
-  };
+  React.useEffect(() => {
+    const removeHubListener = Hub.listen('auth', ({payload}) => {
+      const {event} = payload;
+
+      if (['autoSignIn', 'signIn'].includes(event)) {
+        setIsAuthenticated(true);
+      } else if (event === 'signOut') {
+        setIsAuthenticated(false);
+      } else {
+        console.log('EVENT', event);
+      }
+    });
+
+    return () => {
+      removeHubListener();
+    };
+  }, []);
 
   return (
-    <ApolloProvider client={client}>{renderActiveScreen()}</ApolloProvider>
+    <ApolloProvider client={client}>
+      <NavigationContainer>
+        {isAuthenticated ? <MainStack /> : <AuthStack />}
+      </NavigationContainer>
+    </ApolloProvider>
   );
 };
 

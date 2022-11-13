@@ -6,21 +6,46 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
-import {ActiveScreen} from '../../App';
+import {Auth} from 'aws-amplify';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {AuthStackParams} from '../navigation/AuthStack';
 
-type SignUpScreenProps = {
-  setActiveScreen: (screen: ActiveScreen) => void;
-};
+type SignUpScreenProps = NativeStackScreenProps<AuthStackParams, 'SignUp'>;
 
-export const SignUpScreen: React.FC<SignUpScreenProps> = ({
-  setActiveScreen,
-}) => {
+export const SignUpScreen: React.FC<SignUpScreenProps> = () => {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [phoneNumber, setPhoneNumber] = React.useState('');
+  const [code, setCode] = React.useState('');
 
-  const onSubmit = () => {};
+  const onSubmit = async () => {
+    try {
+      const res = await Auth.signUp({
+        username,
+        password,
+        attributes: {
+          email,
+          phone_number: phoneNumber,
+        },
+        autoSignIn: {
+          enabled: true,
+        },
+      });
+      console.log('RES', res);
+    } catch (err) {
+      console.log('ERROR', err);
+    }
+  };
+
+  const onSubmitCode = async () => {
+    try {
+      const res = await Auth.confirmSignUp(username, code);
+      console.log('CODE RES', res);
+    } catch (err) {
+      console.log('CODE ERROR', err);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -54,6 +79,16 @@ export const SignUpScreen: React.FC<SignUpScreenProps> = ({
       />
       <TouchableOpacity onPress={onSubmit}>
         <Text style={styles.button}>Submit</Text>
+      </TouchableOpacity>
+      <TextInput
+        value={code}
+        onChangeText={setCode}
+        placeholder="Code"
+        style={styles.input}
+        autoCapitalize="none"
+      />
+      <TouchableOpacity onPress={onSubmitCode}>
+        <Text style={styles.button}>Submit code</Text>
       </TouchableOpacity>
     </View>
   );
