@@ -144,14 +144,6 @@ export type ModelSubscriptionStringInput = {
   notIn?: Array< string | null > | null,
 };
 
-export type TestMutationLambdaMutationVariables = {
-  geohashes?: Array< string | null > | null,
-};
-
-export type TestMutationLambdaMutation = {
-  testMutationLambda?: string | null,
-};
-
 export type AddTodoLambdaMutationVariables = {
   geohashes?: Array< string | null > | null,
 };

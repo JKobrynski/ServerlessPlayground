@@ -13,7 +13,6 @@ import {
   useDeleteTodoMutation,
   useListTodosQuery,
   useTestLambdaQuery,
-  useTestMutationLambdaMutation,
 } from '../apollo/artifacts/resolvers-types';
 
 export const HomeScreen = () => {
