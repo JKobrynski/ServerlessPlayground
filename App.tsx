@@ -9,7 +9,12 @@
  */
 
 import React from 'react';
-import {HomeScreen} from './src/screens';
+import {
+  HomeScreen,
+  LandingScreen,
+  SignInScreen,
+  SignUpScreen,
+} from './src/screens';
 import awsconfig from './src/aws-exports';
 import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
 
@@ -21,11 +26,27 @@ const client = new ApolloClient({
   },
 });
 
+export type ActiveScreen = 'Landing' | 'SignUp' | 'SignIn' | 'Home';
+
 const App = () => {
+  const [activeScreen, setActiveScreen] =
+    React.useState<ActiveScreen>('Landing');
+
+  const renderActiveScreen = () => {
+    switch (activeScreen) {
+      case 'Landing':
+        return <LandingScreen setActiveScreen={setActiveScreen} />;
+      case 'SignUp':
+        return <SignUpScreen setActiveScreen={setActiveScreen} />;
+      case 'SignIn':
+        return <SignInScreen setActiveScreen={setActiveScreen} />;
+      case 'Home':
+        return <HomeScreen setActiveScreen={setActiveScreen} />;
+    }
+  };
+
   return (
-    <ApolloProvider client={client}>
-      <HomeScreen />
-    </ApolloProvider>
+    <ApolloProvider client={client}>{renderActiveScreen()}</ApolloProvider>
   );
 };
 

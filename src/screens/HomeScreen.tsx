@@ -14,8 +14,13 @@ import {
   useListTodosQuery,
   useTestLambdaQuery,
 } from '../apollo/artifacts/resolvers-types';
+import {ActiveScreen} from '../../App';
 
-export const HomeScreen = () => {
+type HomeScreenProps = {
+  setActiveScreen: (screen: ActiveScreen) => void;
+};
+
+export const HomeScreen: React.FC<HomeScreenProps> = ({setActiveScreen}) => {
   const {data, refetch} = useListTodosQuery({
     onError: error => console.log('ERROR', error),
   });
