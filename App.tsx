@@ -12,7 +12,7 @@ import React from 'react';
 import awsconfig from './src/aws-exports';
 import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
 import {NavigationContainer} from '@react-navigation/native';
-import {Hub} from 'aws-amplify';
+import {Auth, Hub} from 'aws-amplify';
 import {AuthStack, MainStack} from './src/navigation';
 
 const client = new ApolloClient({
@@ -26,13 +26,28 @@ const client = new ApolloClient({
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
 
+  const checkAuthenticatedUser = async () => {
+    try {
+      const res = await Auth.currentAuthenticatedUser();
+      if (res.username) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+    } catch (err) {
+      console.log('[currentAuthenticatedUser] ERR', err);
+    }
+  };
+
   React.useEffect(() => {
+    checkAuthenticatedUser();
+
     const removeHubListener = Hub.listen('auth', ({payload}) => {
       const {event} = payload;
 
       if (['autoSignIn', 'signIn'].includes(event)) {
         setIsAuthenticated(true);
-      } else if (event === 'signOut') {
+      } else if (['signOut', 'userDeleted'].includes(event)) {
         setIsAuthenticated(false);
       } else {
         console.log('EVENT', event);

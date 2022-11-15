@@ -11,6 +11,7 @@ import {
   useAddTodoLambdaMutation,
   useCreateTodoMutation,
   useDeleteTodoMutation,
+  useGetUserLazyQuery,
   useListTodosQuery,
   useTestLambdaQuery,
 } from '../apollo/artifacts/resolvers-types';
@@ -51,6 +52,19 @@ export const HomeScreen = () => {
       console.log('ERROR', error);
     },
   });
+  const [getUser, {data: userData}] = useGetUserLazyQuery({
+    onError: error => console.log('ERROR', error),
+  });
+
+  React.useEffect(() => {
+    Auth.currentAuthenticatedUser().then(res => {
+      getUser({
+        variables: {
+          id: res.attributes.sub,
+        },
+      });
+    });
+  }, []);
 
   const addTodo = async () => {
     await createTodo({
@@ -92,9 +106,20 @@ export const HomeScreen = () => {
     }
   };
 
+  const onDeleteUser = async () => {
+    try {
+      const res = await Auth.deleteUser();
+      console.log('RES', res);
+    } catch (err) {
+      console.log('ERR', err);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
+        <Text>{userData?.getUser?.phoneNumber}</Text>
+        <Text>{userData?.getUser?.email}</Text>
         <TouchableOpacity onPress={addTodo}>
           <Text style={styles.button}>Add todo</Text>
         </TouchableOpacity>
@@ -116,6 +141,9 @@ export const HomeScreen = () => {
         </View>
         <TouchableOpacity onPress={onLogout}>
           <Text style={styles.logout}>Logout</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onDeleteUser}>
+          <Text style={styles.logout}>Delete account</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

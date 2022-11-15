@@ -9,6 +9,7 @@ import React from 'react';
 import {Auth} from 'aws-amplify';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AuthStackParams} from '../navigation/AuthStack';
+import {useCreateUserMutation} from '../apollo/artifacts/resolvers-types';
 
 type SignUpScreenProps = NativeStackScreenProps<AuthStackParams, 'SignUp'>;
 
@@ -19,9 +20,14 @@ export const SignUpScreen: React.FC<SignUpScreenProps> = () => {
   const [phoneNumber, setPhoneNumber] = React.useState('');
   const [code, setCode] = React.useState('');
 
+  const [createUser] = useCreateUserMutation({
+    onCompleted: data => console.log('[useCreateUserMutation] data', data),
+    onError: error => console.log('[useCreateUserMutation] error', error),
+  });
+
   const onSubmit = async () => {
     try {
-      const res = await Auth.signUp({
+      await Auth.signUp({
         username,
         password,
         attributes: {
@@ -32,16 +38,26 @@ export const SignUpScreen: React.FC<SignUpScreenProps> = () => {
           enabled: true,
         },
       });
-      console.log('RES', res);
     } catch (err) {
-      console.log('ERROR', err);
+      console.log('[signUp] ERROR', err);
     }
   };
 
   const onSubmitCode = async () => {
     try {
-      const res = await Auth.confirmSignUp(username, code);
-      console.log('CODE RES', res);
+      await Auth.confirmSignUp(username, code);
+      const signInRes = await Auth.signIn(phoneNumber, password);
+      console.log('ATTRIBUTES', signInRes.attributes);
+
+      await createUser({
+        variables: {
+          input: {
+            email: signInRes.attributes.email,
+            phoneNumber: signInRes.attributes.phone_number,
+            id: signInRes.attributes.sub,
+          },
+        },
+      });
     } catch (err) {
       console.log('CODE ERROR', err);
     }
