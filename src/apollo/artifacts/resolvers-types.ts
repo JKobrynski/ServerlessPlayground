@@ -1,14 +1,10 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends {[key: string]: unknown}> = {[K in keyof T]: T[K]};
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]?: Maybe<T[SubKey]>;
-};
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
-  [SubKey in K]: Maybe<T[SubKey]>;
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -53,7 +49,7 @@ export enum ModelAttributeTypes {
   Number = 'number',
   NumberSet = 'numberSet',
   String = 'string',
-  StringSet = 'stringSet',
+  StringSet = 'stringSet'
 }
 
 export type ModelBooleanInput = {
@@ -115,7 +111,7 @@ export type ModelSizeInput = {
 
 export enum ModelSortDirection {
   Asc = 'ASC',
-  Desc = 'DESC',
+  Desc = 'DESC'
 }
 
 export type ModelStringInput = {
@@ -205,7 +201,6 @@ export type ModelSubscriptionUserFilterInput = {
   and?: InputMaybe<Array<InputMaybe<ModelSubscriptionUserFilterInput>>>;
   createdAt?: InputMaybe<ModelSubscriptionStringInput>;
   email?: InputMaybe<ModelSubscriptionStringInput>;
-  id?: InputMaybe<ModelSubscriptionIdInput>;
   or?: InputMaybe<Array<InputMaybe<ModelSubscriptionUserFilterInput>>>;
   phoneNumber?: InputMaybe<ModelSubscriptionStringInput>;
   updatedAt?: InputMaybe<ModelSubscriptionStringInput>;
@@ -275,34 +270,41 @@ export type Mutation = {
   updateUser?: Maybe<User>;
 };
 
+
 export type MutationAddTodoLambdaArgs = {
   geohashes?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
+
 
 export type MutationCreateTodoArgs = {
   condition?: InputMaybe<ModelTodoConditionInput>;
   input: CreateTodoInput;
 };
 
+
 export type MutationCreateUserArgs = {
   condition?: InputMaybe<ModelUserConditionInput>;
   input: CreateUserInput;
 };
+
 
 export type MutationDeleteTodoArgs = {
   condition?: InputMaybe<ModelTodoConditionInput>;
   input: DeleteTodoInput;
 };
 
+
 export type MutationDeleteUserArgs = {
   condition?: InputMaybe<ModelUserConditionInput>;
   input: DeleteUserInput;
 };
 
+
 export type MutationUpdateTodoArgs = {
   condition?: InputMaybe<ModelTodoConditionInput>;
   input: UpdateTodoInput;
 };
+
 
 export type MutationUpdateUserArgs = {
   condition?: InputMaybe<ModelUserConditionInput>;
@@ -318,13 +320,16 @@ export type Query = {
   testLambda?: Maybe<Scalars['String']>;
 };
 
+
 export type QueryGetTodoArgs = {
   id: Scalars['ID'];
 };
 
+
 export type QueryGetUserArgs = {
   id: Scalars['ID'];
 };
+
 
 export type QueryListTodosArgs = {
   filter?: InputMaybe<ModelTodoFilterInput>;
@@ -332,11 +337,13 @@ export type QueryListTodosArgs = {
   nextToken?: InputMaybe<Scalars['String']>;
 };
 
+
 export type QueryListUsersArgs = {
   filter?: InputMaybe<ModelUserFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
   nextToken?: InputMaybe<Scalars['String']>;
 };
+
 
 export type QueryTestLambdaArgs = {
   message?: InputMaybe<Scalars['String']>;
@@ -352,28 +359,40 @@ export type Subscription = {
   onUpdateUser?: Maybe<User>;
 };
 
+
 export type SubscriptionOnCreateTodoArgs = {
   filter?: InputMaybe<ModelSubscriptionTodoFilterInput>;
+  owner?: InputMaybe<Scalars['String']>;
 };
+
 
 export type SubscriptionOnCreateUserArgs = {
   filter?: InputMaybe<ModelSubscriptionUserFilterInput>;
+  id?: InputMaybe<Scalars['String']>;
 };
+
 
 export type SubscriptionOnDeleteTodoArgs = {
   filter?: InputMaybe<ModelSubscriptionTodoFilterInput>;
+  owner?: InputMaybe<Scalars['String']>;
 };
+
 
 export type SubscriptionOnDeleteUserArgs = {
   filter?: InputMaybe<ModelSubscriptionUserFilterInput>;
+  id?: InputMaybe<Scalars['String']>;
 };
+
 
 export type SubscriptionOnUpdateTodoArgs = {
   filter?: InputMaybe<ModelSubscriptionTodoFilterInput>;
+  owner?: InputMaybe<Scalars['String']>;
 };
+
 
 export type SubscriptionOnUpdateUserArgs = {
   filter?: InputMaybe<ModelSubscriptionUserFilterInput>;
+  id?: InputMaybe<Scalars['String']>;
 };
 
 export type Todo = {
@@ -382,6 +401,7 @@ export type Todo = {
   description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name: Scalars['String'];
+  owner?: Maybe<Scalars['String']>;
   updatedAt: Scalars['AWSDateTime'];
 };
 
@@ -410,96 +430,47 @@ export type User = {
   username?: Maybe<Scalars['String']>;
 };
 
-export type TodoItemFragment = {
-  __typename: 'Todo';
-  id: string;
-  name: string;
-  description?: string | null;
-  createdAt: any;
-  updatedAt: any;
-};
+export type TodoItemFragment = { __typename: 'Todo', id: string, name: string, description?: string | null, createdAt: any, updatedAt: any };
 
-export type UserDataFragment = {
-  __typename: 'User';
-  createdAt?: any | null;
-  email?: string | null;
-  id: string;
-  phoneNumber?: string | null;
-  updatedAt?: any | null;
-  username?: string | null;
-};
+export type UserDataFragment = { __typename: 'User', createdAt?: any | null, email?: string | null, id: string, phoneNumber?: string | null, updatedAt?: any | null, username?: string | null };
 
 export type AddTodoLambdaMutationVariables = Exact<{
-  geohashes?: InputMaybe<
-    Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>
-  >;
+  geohashes?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
 }>;
 
-export type AddTodoLambdaMutation = {
-  __typename?: 'Mutation';
-  addTodoLambda?: string | null;
-};
+
+export type AddTodoLambdaMutation = { __typename?: 'Mutation', addTodoLambda?: string | null };
 
 export type CreateTodoMutationVariables = Exact<{
   input: CreateTodoInput;
   condition?: InputMaybe<ModelTodoConditionInput>;
 }>;
 
-export type CreateTodoMutation = {
-  __typename?: 'Mutation';
-  createTodo?: {
-    __typename?: 'Todo';
-    id: string;
-    name: string;
-    description?: string | null;
-    createdAt: any;
-    updatedAt: any;
-  } | null;
-};
+
+export type CreateTodoMutation = { __typename?: 'Mutation', createTodo?: { __typename?: 'Todo', id: string, name: string, description?: string | null, createdAt: any, updatedAt: any } | null };
 
 export type DeleteTodoMutationVariables = Exact<{
   input: DeleteTodoInput;
   condition?: InputMaybe<ModelTodoConditionInput>;
 }>;
 
-export type DeleteTodoMutation = {
-  __typename?: 'Mutation';
-  deleteTodo?: {
-    __typename?: 'Todo';
-    id: string;
-    name: string;
-    description?: string | null;
-    createdAt: any;
-    updatedAt: any;
-  } | null;
-};
+
+export type DeleteTodoMutation = { __typename?: 'Mutation', deleteTodo?: { __typename?: 'Todo', id: string, name: string, description?: string | null, createdAt: any, updatedAt: any } | null };
 
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
   condition?: InputMaybe<ModelUserConditionInput>;
 }>;
 
-export type CreateUserMutation = {
-  __typename?: 'Mutation';
-  createUser?: {
-    __typename: 'User';
-    createdAt?: any | null;
-    email?: string | null;
-    id: string;
-    phoneNumber?: string | null;
-    updatedAt?: any | null;
-    username?: string | null;
-  } | null;
-};
+
+export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typename: 'User', createdAt?: any | null, email?: string | null, id: string, phoneNumber?: string | null, updatedAt?: any | null, username?: string | null } | null };
 
 export type TestLambdaQueryVariables = Exact<{
   message?: InputMaybe<Scalars['String']>;
 }>;
 
-export type TestLambdaQuery = {
-  __typename?: 'Query';
-  testLambda?: string | null;
-};
+
+export type TestLambdaQuery = { __typename?: 'Query', testLambda?: string | null };
 
 export type ListTodosQueryVariables = Exact<{
   filter?: InputMaybe<ModelTodoFilterInput>;
@@ -507,69 +478,43 @@ export type ListTodosQueryVariables = Exact<{
   nextToken?: InputMaybe<Scalars['String']>;
 }>;
 
-export type ListTodosQuery = {
-  __typename?: 'Query';
-  listTodos?: {
-    __typename?: 'ModelTodoConnection';
-    nextToken?: string | null;
-    items: Array<{
-      __typename: 'Todo';
-      id: string;
-      name: string;
-      description?: string | null;
-      createdAt: any;
-      updatedAt: any;
-    } | null>;
-  } | null;
-};
+
+export type ListTodosQuery = { __typename?: 'Query', listTodos?: { __typename?: 'ModelTodoConnection', nextToken?: string | null, items: Array<{ __typename: 'Todo', id: string, name: string, description?: string | null, createdAt: any, updatedAt: any } | null> } | null };
 
 export type GetUserQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-export type GetUserQuery = {
-  __typename?: 'Query';
-  getUser?: {
-    __typename: 'User';
-    createdAt?: any | null;
-    email?: string | null;
-    id: string;
-    phoneNumber?: string | null;
-    updatedAt?: any | null;
-    username?: string | null;
-  } | null;
-};
+
+export type GetUserQuery = { __typename?: 'Query', getUser?: { __typename: 'User', createdAt?: any | null, email?: string | null, id: string, phoneNumber?: string | null, updatedAt?: any | null, username?: string | null } | null };
 
 export const TodoItemFragmentDoc = gql`
-  fragment TodoItem on Todo {
-    __typename
-    id
-    name
-    description
-    createdAt
-    updatedAt
-  }
-`;
+    fragment TodoItem on Todo {
+  __typename
+  id
+  name
+  description
+  createdAt
+  updatedAt
+}
+    `;
 export const UserDataFragmentDoc = gql`
-  fragment UserData on User {
-    __typename
-    createdAt
-    email
-    id
-    phoneNumber
-    updatedAt
-    username
-  }
-`;
+    fragment UserData on User {
+  __typename
+  createdAt
+  email
+  id
+  phoneNumber
+  updatedAt
+  username
+}
+    `;
 export const AddTodoLambdaDocument = gql`
-  mutation AddTodoLambda($geohashes: [String]) {
-    addTodoLambda(geohashes: $geohashes)
-  }
-`;
-export type AddTodoLambdaMutationFn = Apollo.MutationFunction<
-  AddTodoLambdaMutation,
-  AddTodoLambdaMutationVariables
->;
+    mutation AddTodoLambda($geohashes: [String]) {
+  addTodoLambda(geohashes: $geohashes)
+}
+    `;
+export type AddTodoLambdaMutationFn = Apollo.MutationFunction<AddTodoLambdaMutation, AddTodoLambdaMutationVariables>;
 
 /**
  * __useAddTodoLambdaMutation__
@@ -588,45 +533,25 @@ export type AddTodoLambdaMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useAddTodoLambdaMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    AddTodoLambdaMutation,
-    AddTodoLambdaMutationVariables
-  >,
-) {
-  const options = {...defaultOptions, ...baseOptions};
-  return Apollo.useMutation<
-    AddTodoLambdaMutation,
-    AddTodoLambdaMutationVariables
-  >(AddTodoLambdaDocument, options);
-}
-export type AddTodoLambdaMutationHookResult = ReturnType<
-  typeof useAddTodoLambdaMutation
->;
-export type AddTodoLambdaMutationResult =
-  Apollo.MutationResult<AddTodoLambdaMutation>;
-export type AddTodoLambdaMutationOptions = Apollo.BaseMutationOptions<
-  AddTodoLambdaMutation,
-  AddTodoLambdaMutationVariables
->;
+export function useAddTodoLambdaMutation(baseOptions?: Apollo.MutationHookOptions<AddTodoLambdaMutation, AddTodoLambdaMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddTodoLambdaMutation, AddTodoLambdaMutationVariables>(AddTodoLambdaDocument, options);
+      }
+export type AddTodoLambdaMutationHookResult = ReturnType<typeof useAddTodoLambdaMutation>;
+export type AddTodoLambdaMutationResult = Apollo.MutationResult<AddTodoLambdaMutation>;
+export type AddTodoLambdaMutationOptions = Apollo.BaseMutationOptions<AddTodoLambdaMutation, AddTodoLambdaMutationVariables>;
 export const CreateTodoDocument = gql`
-  mutation CreateTodo(
-    $input: CreateTodoInput!
-    $condition: ModelTodoConditionInput
-  ) {
-    createTodo(input: $input, condition: $condition) {
-      id
-      name
-      description
-      createdAt
-      updatedAt
-    }
+    mutation CreateTodo($input: CreateTodoInput!, $condition: ModelTodoConditionInput) {
+  createTodo(input: $input, condition: $condition) {
+    id
+    name
+    description
+    createdAt
+    updatedAt
   }
-`;
-export type CreateTodoMutationFn = Apollo.MutationFunction<
-  CreateTodoMutation,
-  CreateTodoMutationVariables
->;
+}
+    `;
+export type CreateTodoMutationFn = Apollo.MutationFunction<CreateTodoMutation, CreateTodoMutationVariables>;
 
 /**
  * __useCreateTodoMutation__
@@ -646,45 +571,25 @@ export type CreateTodoMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateTodoMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateTodoMutation,
-    CreateTodoMutationVariables
-  >,
-) {
-  const options = {...defaultOptions, ...baseOptions};
-  return Apollo.useMutation<CreateTodoMutation, CreateTodoMutationVariables>(
-    CreateTodoDocument,
-    options,
-  );
-}
-export type CreateTodoMutationHookResult = ReturnType<
-  typeof useCreateTodoMutation
->;
-export type CreateTodoMutationResult =
-  Apollo.MutationResult<CreateTodoMutation>;
-export type CreateTodoMutationOptions = Apollo.BaseMutationOptions<
-  CreateTodoMutation,
-  CreateTodoMutationVariables
->;
+export function useCreateTodoMutation(baseOptions?: Apollo.MutationHookOptions<CreateTodoMutation, CreateTodoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateTodoMutation, CreateTodoMutationVariables>(CreateTodoDocument, options);
+      }
+export type CreateTodoMutationHookResult = ReturnType<typeof useCreateTodoMutation>;
+export type CreateTodoMutationResult = Apollo.MutationResult<CreateTodoMutation>;
+export type CreateTodoMutationOptions = Apollo.BaseMutationOptions<CreateTodoMutation, CreateTodoMutationVariables>;
 export const DeleteTodoDocument = gql`
-  mutation DeleteTodo(
-    $input: DeleteTodoInput!
-    $condition: ModelTodoConditionInput
-  ) {
-    deleteTodo(input: $input, condition: $condition) {
-      id
-      name
-      description
-      createdAt
-      updatedAt
-    }
+    mutation DeleteTodo($input: DeleteTodoInput!, $condition: ModelTodoConditionInput) {
+  deleteTodo(input: $input, condition: $condition) {
+    id
+    name
+    description
+    createdAt
+    updatedAt
   }
-`;
-export type DeleteTodoMutationFn = Apollo.MutationFunction<
-  DeleteTodoMutation,
-  DeleteTodoMutationVariables
->;
+}
+    `;
+export type DeleteTodoMutationFn = Apollo.MutationFunction<DeleteTodoMutation, DeleteTodoMutationVariables>;
 
 /**
  * __useDeleteTodoMutation__
@@ -704,42 +609,21 @@ export type DeleteTodoMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteTodoMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    DeleteTodoMutation,
-    DeleteTodoMutationVariables
-  >,
-) {
-  const options = {...defaultOptions, ...baseOptions};
-  return Apollo.useMutation<DeleteTodoMutation, DeleteTodoMutationVariables>(
-    DeleteTodoDocument,
-    options,
-  );
-}
-export type DeleteTodoMutationHookResult = ReturnType<
-  typeof useDeleteTodoMutation
->;
-export type DeleteTodoMutationResult =
-  Apollo.MutationResult<DeleteTodoMutation>;
-export type DeleteTodoMutationOptions = Apollo.BaseMutationOptions<
-  DeleteTodoMutation,
-  DeleteTodoMutationVariables
->;
+export function useDeleteTodoMutation(baseOptions?: Apollo.MutationHookOptions<DeleteTodoMutation, DeleteTodoMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteTodoMutation, DeleteTodoMutationVariables>(DeleteTodoDocument, options);
+      }
+export type DeleteTodoMutationHookResult = ReturnType<typeof useDeleteTodoMutation>;
+export type DeleteTodoMutationResult = Apollo.MutationResult<DeleteTodoMutation>;
+export type DeleteTodoMutationOptions = Apollo.BaseMutationOptions<DeleteTodoMutation, DeleteTodoMutationVariables>;
 export const CreateUserDocument = gql`
-  mutation CreateUser(
-    $input: CreateUserInput!
-    $condition: ModelUserConditionInput
-  ) {
-    createUser(input: $input, condition: $condition) {
-      ...UserData
-    }
+    mutation CreateUser($input: CreateUserInput!, $condition: ModelUserConditionInput) {
+  createUser(input: $input, condition: $condition) {
+    ...UserData
   }
-  ${UserDataFragmentDoc}
-`;
-export type CreateUserMutationFn = Apollo.MutationFunction<
-  CreateUserMutation,
-  CreateUserMutationVariables
->;
+}
+    ${UserDataFragmentDoc}`;
+export type CreateUserMutationFn = Apollo.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
 
 /**
  * __useCreateUserMutation__
@@ -759,32 +643,18 @@ export type CreateUserMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateUserMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateUserMutation,
-    CreateUserMutationVariables
-  >,
-) {
-  const options = {...defaultOptions, ...baseOptions};
-  return Apollo.useMutation<CreateUserMutation, CreateUserMutationVariables>(
-    CreateUserDocument,
-    options,
-  );
-}
-export type CreateUserMutationHookResult = ReturnType<
-  typeof useCreateUserMutation
->;
-export type CreateUserMutationResult =
-  Apollo.MutationResult<CreateUserMutation>;
-export type CreateUserMutationOptions = Apollo.BaseMutationOptions<
-  CreateUserMutation,
-  CreateUserMutationVariables
->;
+export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, options);
+      }
+export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
+export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
+export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
 export const TestLambdaDocument = gql`
-  query TestLambda($message: String) {
-    testLambda(message: $message)
-  }
-`;
+    query TestLambda($message: String) {
+  testLambda(message: $message)
+}
+    `;
 
 /**
  * __useTestLambdaQuery__
@@ -802,53 +672,27 @@ export const TestLambdaDocument = gql`
  *   },
  * });
  */
-export function useTestLambdaQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    TestLambdaQuery,
-    TestLambdaQueryVariables
-  >,
-) {
-  const options = {...defaultOptions, ...baseOptions};
-  return Apollo.useQuery<TestLambdaQuery, TestLambdaQueryVariables>(
-    TestLambdaDocument,
-    options,
-  );
-}
-export function useTestLambdaLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    TestLambdaQuery,
-    TestLambdaQueryVariables
-  >,
-) {
-  const options = {...defaultOptions, ...baseOptions};
-  return Apollo.useLazyQuery<TestLambdaQuery, TestLambdaQueryVariables>(
-    TestLambdaDocument,
-    options,
-  );
-}
-export type TestLambdaQueryHookResult = ReturnType<typeof useTestLambdaQuery>;
-export type TestLambdaLazyQueryHookResult = ReturnType<
-  typeof useTestLambdaLazyQuery
->;
-export type TestLambdaQueryResult = Apollo.QueryResult<
-  TestLambdaQuery,
-  TestLambdaQueryVariables
->;
-export const ListTodosDocument = gql`
-  query ListTodos(
-    $filter: ModelTodoFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        ...TodoItem
+export function useTestLambdaQuery(baseOptions?: Apollo.QueryHookOptions<TestLambdaQuery, TestLambdaQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TestLambdaQuery, TestLambdaQueryVariables>(TestLambdaDocument, options);
       }
-      nextToken
+export function useTestLambdaLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TestLambdaQuery, TestLambdaQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TestLambdaQuery, TestLambdaQueryVariables>(TestLambdaDocument, options);
+        }
+export type TestLambdaQueryHookResult = ReturnType<typeof useTestLambdaQuery>;
+export type TestLambdaLazyQueryHookResult = ReturnType<typeof useTestLambdaLazyQuery>;
+export type TestLambdaQueryResult = Apollo.QueryResult<TestLambdaQuery, TestLambdaQueryVariables>;
+export const ListTodosDocument = gql`
+    query ListTodos($filter: ModelTodoFilterInput, $limit: Int, $nextToken: String) {
+  listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      ...TodoItem
     }
+    nextToken
   }
-  ${TodoItemFragmentDoc}
-`;
+}
+    ${TodoItemFragmentDoc}`;
 
 /**
  * __useListTodosQuery__
@@ -868,46 +712,24 @@ export const ListTodosDocument = gql`
  *   },
  * });
  */
-export function useListTodosQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    ListTodosQuery,
-    ListTodosQueryVariables
-  >,
-) {
-  const options = {...defaultOptions, ...baseOptions};
-  return Apollo.useQuery<ListTodosQuery, ListTodosQueryVariables>(
-    ListTodosDocument,
-    options,
-  );
-}
-export function useListTodosLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    ListTodosQuery,
-    ListTodosQueryVariables
-  >,
-) {
-  const options = {...defaultOptions, ...baseOptions};
-  return Apollo.useLazyQuery<ListTodosQuery, ListTodosQueryVariables>(
-    ListTodosDocument,
-    options,
-  );
-}
+export function useListTodosQuery(baseOptions?: Apollo.QueryHookOptions<ListTodosQuery, ListTodosQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ListTodosQuery, ListTodosQueryVariables>(ListTodosDocument, options);
+      }
+export function useListTodosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ListTodosQuery, ListTodosQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ListTodosQuery, ListTodosQueryVariables>(ListTodosDocument, options);
+        }
 export type ListTodosQueryHookResult = ReturnType<typeof useListTodosQuery>;
-export type ListTodosLazyQueryHookResult = ReturnType<
-  typeof useListTodosLazyQuery
->;
-export type ListTodosQueryResult = Apollo.QueryResult<
-  ListTodosQuery,
-  ListTodosQueryVariables
->;
+export type ListTodosLazyQueryHookResult = ReturnType<typeof useListTodosLazyQuery>;
+export type ListTodosQueryResult = Apollo.QueryResult<ListTodosQuery, ListTodosQueryVariables>;
 export const GetUserDocument = gql`
-  query GetUser($id: ID!) {
-    getUser(id: $id) {
-      ...UserData
-    }
+    query GetUser($id: ID!) {
+  getUser(id: $id) {
+    ...UserData
   }
-  ${UserDataFragmentDoc}
-`;
+}
+    ${UserDataFragmentDoc}`;
 
 /**
  * __useGetUserQuery__
@@ -925,40 +747,25 @@ export const GetUserDocument = gql`
  *   },
  * });
  */
-export function useGetUserQuery(
-  baseOptions: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables>,
-) {
-  const options = {...defaultOptions, ...baseOptions};
-  return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(
-    GetUserDocument,
-    options,
-  );
-}
-export function useGetUserLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetUserQuery,
-    GetUserQueryVariables
-  >,
-) {
-  const options = {...defaultOptions, ...baseOptions};
-  return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(
-    GetUserDocument,
-    options,
-  );
-}
+export function useGetUserQuery(baseOptions: Apollo.QueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+      }
+export function useGetUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserQuery, GetUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserQuery, GetUserQueryVariables>(GetUserDocument, options);
+        }
 export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
 export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
-export type GetUserQueryResult = Apollo.QueryResult<
-  GetUserQuery,
-  GetUserQueryVariables
->;
+export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
 
-export interface PossibleTypesResultData {
-  possibleTypes: {
-    [key: string]: string[];
-  };
-}
-const result: PossibleTypesResultData = {
-  possibleTypes: {},
+      export interface PossibleTypesResultData {
+        possibleTypes: {
+          [key: string]: string[]
+        }
+      }
+      const result: PossibleTypesResultData = {
+  "possibleTypes": {}
 };
-export default result;
+      export default result;
+    

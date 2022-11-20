@@ -9,19 +9,11 @@
  */
 
 import React from 'react';
-import awsconfig from './src/aws-exports';
-import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
+import {ApolloProvider} from '@apollo/client';
 import {NavigationContainer} from '@react-navigation/native';
 import {Auth, Hub} from 'aws-amplify';
 import {AuthStack, MainStack} from './src/navigation';
-
-const client = new ApolloClient({
-  uri: awsconfig.aws_appsync_graphqlEndpoint,
-  cache: new InMemoryCache(),
-  headers: {
-    'x-api-key': awsconfig.aws_appsync_apiKey,
-  },
-});
+import {client} from './src/apollo/client';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);

@@ -4,8 +4,17 @@
     "apiName": "serverlessplayground",
     "serviceName": "AppSync",
     "defaultAuthType": {
-      "mode": "API_KEY",
-      "expirationTime": 7
-    }
+      "mode": "AMAZON_COGNITO_USER_POOLS",
+      "cognitoUserPoolId": "authserverlessplaygroundc407a6c5"
+    },
+    "additionalAuthTypes": [
+      {
+        "mode": "API_KEY",
+        "expirationTime": 365,
+        "apiKeyExpirationDate": "2023-11-19T17:34:33.633Z",
+        "keyDescription": "default api key"
+      }
+    ],
+    "conflictResolution": {}
   }
 }

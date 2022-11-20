@@ -8,12 +8,10 @@ import {
 import React from 'react';
 import {
   TodoItemFragment,
-  useAddTodoLambdaMutation,
   useCreateTodoMutation,
   useDeleteTodoMutation,
   useGetUserLazyQuery,
   useListTodosQuery,
-  useTestLambdaQuery,
 } from '../apollo/artifacts/resolvers-types';
 import {Auth} from 'aws-amplify';
 
@@ -37,21 +35,6 @@ export const HomeScreen = () => {
       console.log('ERROR', error);
     },
   });
-  const {data: lambdaData} = useTestLambdaQuery({
-    variables: {
-      message: 'Ogarniemy to stary',
-    },
-    onError: error => console.log('LAMBDA ERR', error.graphQLErrors),
-  });
-  const [addTodoLambda] = useAddTodoLambdaMutation({
-    onCompleted: (res, clientOptions) => {
-      console.log('RES', res);
-      console.log('CLIENT OPTIONS', clientOptions);
-    },
-    onError: error => {
-      console.log('ERROR', error);
-    },
-  });
   const [getUser, {data: userData}] = useGetUserLazyQuery({
     onError: error => console.log('ERROR', error),
   });
@@ -64,38 +47,39 @@ export const HomeScreen = () => {
         },
       });
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const addTodo = async () => {
-    await createTodo({
-      variables: {
-        input: {
-          id: Math.random().toString(),
-          name: `Todo ${Math.round(Math.random() * 100)}`,
-          description: 'Todo description',
+    try {
+      await createTodo({
+        variables: {
+          input: {
+            id: Math.random().toString(),
+            name: `Todo ${Math.round(Math.random() * 100)}`,
+            description: 'Todo description',
+          },
         },
-      },
-    });
+      });
+    } catch (err) {
+      console.log('[createTodo] ERROR', err);
+    }
   };
 
   const onDelete = async (item: TodoItemFragment | null) => {
     if (item) {
-      await deleteTodo({
-        variables: {
-          input: {
-            id: item.id,
+      try {
+        await deleteTodo({
+          variables: {
+            input: {
+              id: item.id,
+            },
           },
-        },
-      });
+        });
+      } catch (err) {
+        console.log('[onDelete] ERROR', err);
+      }
     }
-  };
-
-  const onMutate = async () => {
-    await addTodoLambda({
-      variables: {
-        geohashes: ['gbsuv7z', 'gbsuv7'],
-      },
-    });
   };
 
   const onLogout = async () => {
@@ -125,9 +109,6 @@ export const HomeScreen = () => {
         </TouchableOpacity>
         <TouchableOpacity onPress={() => refetch()}>
           <Text style={styles.button}>Get todos</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={onMutate}>
-          <Text style={styles.button}>Run testMutationLambda</Text>
         </TouchableOpacity>
         <View>
           {data?.listTodos?.items.map(item => (
