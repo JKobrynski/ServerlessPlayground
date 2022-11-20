@@ -8,5 +8,6 @@ export const TodoItemFragment = gql`
     description
     createdAt
     updatedAt
+    owner
   }
 `;

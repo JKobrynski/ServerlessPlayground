@@ -430,7 +430,7 @@ export type User = {
   username?: Maybe<Scalars['String']>;
 };
 
-export type TodoItemFragment = { __typename: 'Todo', id: string, name: string, description?: string | null, createdAt: any, updatedAt: any };
+export type TodoItemFragment = { __typename: 'Todo', id: string, name: string, description?: string | null, createdAt: any, updatedAt: any, owner?: string | null };
 
 export type UserDataFragment = { __typename: 'User', createdAt?: any | null, email?: string | null, id: string, phoneNumber?: string | null, updatedAt?: any | null, username?: string | null };
 
@@ -479,7 +479,7 @@ export type ListTodosQueryVariables = Exact<{
 }>;
 
 
-export type ListTodosQuery = { __typename?: 'Query', listTodos?: { __typename?: 'ModelTodoConnection', nextToken?: string | null, items: Array<{ __typename: 'Todo', id: string, name: string, description?: string | null, createdAt: any, updatedAt: any } | null> } | null };
+export type ListTodosQuery = { __typename?: 'Query', listTodos?: { __typename?: 'ModelTodoConnection', nextToken?: string | null, items: Array<{ __typename: 'Todo', id: string, name: string, description?: string | null, createdAt: any, updatedAt: any, owner?: string | null } | null> } | null };
 
 export type GetUserQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -496,6 +496,7 @@ export const TodoItemFragmentDoc = gql`
   description
   createdAt
   updatedAt
+  owner
 }
     `;
 export const UserDataFragmentDoc = gql`
