@@ -58,6 +58,7 @@ export const HomeScreen = () => {
             id: Math.random().toString(),
             name: `Todo ${Math.round(Math.random() * 100)}`,
             description: 'Todo description',
+            owner: 'a618a19d-54ae-42a6-8264-d05434931a4a',
           },
         },
       });
@@ -81,6 +82,8 @@ export const HomeScreen = () => {
       }
     }
   };
+
+  console.log(data?.listTodos?.items.map(item => item?.owner));
 
   const onLogout = async () => {
     try {

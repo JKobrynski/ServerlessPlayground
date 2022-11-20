@@ -1,5 +1,4 @@
 import {gql} from '@apollo/client';
-import {UserDataFragment} from './users';
 
 export const TodoItemFragment = gql`
   fragment TodoItem on Todo {
@@ -11,8 +10,10 @@ export const TodoItemFragment = gql`
     updatedAt
     owner
     user {
-      ...UserData
+      email
+      id
+      phoneNumber
+      username
     }
   }
-  ${UserDataFragment}
 `;
