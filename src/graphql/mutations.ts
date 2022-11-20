@@ -16,9 +16,17 @@ export const createTodo = /* GraphQL */ `
       id
       name
       description
+      owner
+      user {
+        createdAt
+        email
+        id
+        phoneNumber
+        updatedAt
+        username
+      }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -31,9 +39,17 @@ export const updateTodo = /* GraphQL */ `
       id
       name
       description
+      owner
+      user {
+        createdAt
+        email
+        id
+        phoneNumber
+        updatedAt
+        username
+      }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -46,9 +62,17 @@ export const deleteTodo = /* GraphQL */ `
       id
       name
       description
+      owner
+      user {
+        createdAt
+        email
+        id
+        phoneNumber
+        updatedAt
+        username
+      }
       createdAt
       updatedAt
-      owner
     }
   }
 `;

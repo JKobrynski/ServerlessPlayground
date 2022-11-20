@@ -113,7 +113,10 @@ export const HomeScreen = () => {
         <View>
           {data?.listTodos?.items.map(item => (
             <View key={item?.id} style={styles.row}>
-              <Text>{item?.name}</Text>
+              <View style={styles.column}>
+                <Text>{item?.name}</Text>
+                <Text>{item?.user?.email}</Text>
+              </View>
               <TouchableOpacity onPress={() => onDelete(item)}>
                 <Text style={styles.x}>X</Text>
               </TouchableOpacity>
@@ -152,6 +155,9 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'space-evenly',
     paddingVertical: 6,
+  },
+  column: {
+    flexDirection: 'column',
   },
   x: {
     color: 'red',

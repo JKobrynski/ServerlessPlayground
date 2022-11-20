@@ -10,6 +10,8 @@ type Todo
   id: ID!
   name: String!
   description: String
+  owner: ID
+  user: User @hasOne(fields: ["owner"])
 }
 
 type User
