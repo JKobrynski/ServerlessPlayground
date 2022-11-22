@@ -6,21 +6,21 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
+import auth from '@react-native-firebase/auth';
+import {AuthStackParams} from '../../navigation/FirebaseStack/AuthStack';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {AuthStackParams} from '../navigation/AmplifyStack/AuthStack';
-import {Auth} from 'aws-amplify';
 
 type SignInScreenProps = NativeStackScreenProps<AuthStackParams, 'SignIn'>;
 
 export const SignInScreen: React.FC<SignInScreenProps> = ({navigation}) => {
-  const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [email, setEmail] = React.useState('');
 
   const onSubmit = async () => {
     try {
-      await Auth.signIn(username, password);
+      await auth().signInWithEmailAndPassword(email, password);
     } catch (err) {
-      console.log('ERR', err);
+      console.log('[onSubmit] error', err);
     }
   };
 
@@ -28,10 +28,11 @@ export const SignInScreen: React.FC<SignInScreenProps> = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <Text>Sign in</Text>
       <TextInput
-        value={username}
-        onChangeText={setUsername}
-        placeholder="Username"
+        value={email}
+        onChangeText={setEmail}
+        placeholder="Email"
         style={styles.input}
         autoCapitalize="none"
       />

@@ -1,6 +1,6 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {SignInScreen, SignUpScreen} from '../../screens/Amplify';
+import {SignInScreen, SignUpScreen} from '../../screens/Firebase';
 
 export type AuthStackParams = {
   SignIn: undefined;

@@ -1,6 +1,6 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {HomeScreen} from '../../screens/Amplify';
+import {HomeScreen} from '../../screens/Firebase';
 
 export type MainStackParams = {
   Home: undefined;

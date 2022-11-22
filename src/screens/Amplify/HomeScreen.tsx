@@ -12,7 +12,7 @@ import {
   useDeleteTodoMutation,
   useGetUserLazyQuery,
   useListTodosQuery,
-} from '../apollo/artifacts/resolvers-types';
+} from '../../apollo/artifacts/resolvers-types';
 import {Auth} from 'aws-amplify';
 
 export const HomeScreen = () => {
