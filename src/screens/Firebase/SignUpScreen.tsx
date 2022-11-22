@@ -7,14 +7,24 @@ import {
 } from 'react-native';
 import React from 'react';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 export const SignUpScreen = () => {
   const [password, setPassword] = React.useState('');
   const [email, setEmail] = React.useState('');
+  const [username, setUsername] = React.useState('');
 
   const onSubmit = async () => {
     try {
-      await auth().createUserWithEmailAndPassword(email, password);
+      const res = await auth().createUserWithEmailAndPassword(email, password);
+      console.log('NEW USER ID', res.user.uid);
+      const newUser = await firestore().collection('users').add({
+        id: res.user.uid,
+        email,
+        username,
+      });
+
+      console.log('NEW USER', newUser);
     } catch (err) {
       console.log('[onSubmit] error', err);
     }
@@ -23,6 +33,13 @@ export const SignUpScreen = () => {
   return (
     <View style={styles.container}>
       <Text>Sign up</Text>
+      <TextInput
+        value={username}
+        onChangeText={setUsername}
+        placeholder="Username"
+        style={styles.input}
+        autoCapitalize="none"
+      />
       <TextInput
         value={email}
         onChangeText={setEmail}
