@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {AuthStackParams} from '../navigation/AuthStack';
+import {AuthStackParams} from '../navigation/AmplifyStack/AuthStack';
 import {Auth} from 'aws-amplify';
 
 type SignInScreenProps = NativeStackScreenProps<AuthStackParams, 'SignIn'>;

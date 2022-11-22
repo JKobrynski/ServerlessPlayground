@@ -8,7 +8,7 @@ import {
 import React from 'react';
 import {Auth} from 'aws-amplify';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {AuthStackParams} from '../navigation/AuthStack';
+import {AuthStackParams} from '../navigation/AmplifyStack/AuthStack';
 import {useCreateUserMutation} from '../apollo/artifacts/resolvers-types';
 
 type SignUpScreenProps = NativeStackScreenProps<AuthStackParams, 'SignUp'>;
