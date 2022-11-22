@@ -17,14 +17,11 @@ export const SignUpScreen = () => {
   const onSubmit = async () => {
     try {
       const res = await auth().createUserWithEmailAndPassword(email, password);
-      console.log('NEW USER ID', res.user.uid);
-      const newUser = await firestore().collection('users').add({
+      await firestore().collection('users').add({
         id: res.user.uid,
         email,
         username,
       });
-
-      console.log('NEW USER', newUser);
     } catch (err) {
       console.log('[onSubmit] error', err);
     }

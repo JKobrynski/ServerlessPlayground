@@ -8,7 +8,9 @@ import {
 } from 'react-native';
 import React from 'react';
 import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
+import firestore, {
+  FirebaseFirestoreTypes,
+} from '@react-native-firebase/firestore';
 
 type User = {
   id: string;
@@ -16,15 +18,12 @@ type User = {
   username: string;
 };
 
-type Todo = {
-  name: string;
-  owner: string;
-};
-
 export const HomeScreen = () => {
   const [user, setUser] = React.useState<User>();
   const [todo, setTodo] = React.useState('');
-  const [todos, setTodos] = React.useState<Todo[]>([]);
+  const [todos, setTodos] = React.useState<
+    FirebaseFirestoreTypes.QueryDocumentSnapshot<FirebaseFirestoreTypes.DocumentData>[]
+  >([]);
 
   const getUser = async () => {
     try {
@@ -44,7 +43,7 @@ export const HomeScreen = () => {
         .collection('todos')
         .where('owner', '==', auth().currentUser?.uid)
         .get();
-      setTodos(res.docs.map(item => item.data()) as Todo[]);
+      setTodos(res.docs);
     } catch (err) {
       console.log('[getTodos] err', err);
     }
@@ -83,6 +82,17 @@ export const HomeScreen = () => {
     }
   };
 
+  const onDelete = async (
+    item: FirebaseFirestoreTypes.QueryDocumentSnapshot<FirebaseFirestoreTypes.DocumentData>,
+  ) => {
+    try {
+      await firestore().collection('todos').doc(item.id).delete();
+      await getTodos();
+    } catch (err) {
+      console.log('[onDelete] err', err);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -100,9 +110,14 @@ export const HomeScreen = () => {
         </TouchableOpacity>
         <View>
           {todos.map(item => (
-            <View style={styles.column} key={item.name}>
-              <Text>{item?.name}</Text>
-              <Text>{item.owner}</Text>
+            <View key={item?.id} style={styles.row}>
+              <View style={styles.column}>
+                <Text>{item?.data()?.name}</Text>
+                <Text>{item?.data()?.owner}</Text>
+              </View>
+              <TouchableOpacity onPress={() => onDelete(item)}>
+                <Text style={styles.x}>X</Text>
+              </TouchableOpacity>
             </View>
           ))}
         </View>
