@@ -12,47 +12,62 @@ import firestore, {
   FirebaseFirestoreTypes,
 } from '@react-native-firebase/firestore';
 
-type User = {
-  id: string;
-  email: string;
-  username: string;
-};
-
 export const HomeScreen = () => {
-  const [user, setUser] = React.useState<User>();
+  const [user, setUser] =
+    React.useState<
+      FirebaseFirestoreTypes.QueryDocumentSnapshot<FirebaseFirestoreTypes.DocumentData>
+    >();
   const [todo, setTodo] = React.useState('');
-  const [todos, setTodos] = React.useState<
-    FirebaseFirestoreTypes.QueryDocumentSnapshot<FirebaseFirestoreTypes.DocumentData>[]
-  >([]);
+  const [todos, setTodos] = React.useState<any[]>([]);
 
-  const getUser = async () => {
+  const getUser = React.useCallback(async () => {
     try {
       const res = await firestore()
         .collection('users')
         .where('id', '==', auth().currentUser?.uid)
         .get();
-      setUser(res.docs[0].data() as User);
+      setUser(res.docs[0]);
     } catch (err) {
       console.log('[getUser] err', err);
     }
-  };
+  }, []);
 
-  const getTodos = async () => {
+  const getTodos = React.useCallback(async () => {
     try {
+      const ownerRef = firestore().collection('users').doc(user?.id);
       const res = await firestore()
         .collection('todos')
-        .where('owner', '==', auth().currentUser?.uid)
+        .where('owner', '==', ownerRef)
         .get();
-      setTodos(res.docs);
+
+      const mappedTodos = await Promise.all(
+        res.docs?.map(async item => {
+          const owner = await item.data().owner.get();
+          return {
+            ...item.data(),
+            documentId: item.id,
+            owner: {
+              ...owner.data(),
+            },
+          };
+        }),
+      );
+      setTodos(mappedTodos);
     } catch (err) {
       console.log('[getTodos] err', err);
     }
-  };
+  }, [user?.id]);
 
   React.useEffect(() => {
     getUser();
-    getTodos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  React.useEffect(() => {
+    if (user?.id) {
+      getTodos();
+    }
+  }, [getTodos, user?.id]);
 
   const onLogout = async () => {
     try {
@@ -72,8 +87,9 @@ export const HomeScreen = () => {
 
   const onAddTodo = async () => {
     try {
+      const ownerRef = firestore().collection('users').doc(user?.id);
       await firestore().collection('todos').add({
-        owner: auth().currentUser?.uid,
+        owner: ownerRef,
         name: todo,
       });
       await getTodos();
@@ -96,8 +112,11 @@ export const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <Text>{user?.email}</Text>
-        <Text>{user?.username}</Text>
+        <Text>{user?.data()?.email}</Text>
+        <Text>{user?.data()?.username}</Text>
+        <TouchableOpacity onPress={getTodos}>
+          <Text style={styles.button}>Get todos</Text>
+        </TouchableOpacity>
         <TextInput
           value={todo}
           onChangeText={setTodo}
@@ -110,10 +129,10 @@ export const HomeScreen = () => {
         </TouchableOpacity>
         <View>
           {todos.map(item => (
-            <View key={item?.id} style={styles.row}>
+            <View key={item?.documentId} style={styles.row}>
               <View style={styles.column}>
-                <Text>{item?.data()?.name}</Text>
-                <Text>{item?.data()?.owner}</Text>
+                <Text>{item?.name}</Text>
+                <Text>{item?.owner?.email}</Text>
               </View>
               <TouchableOpacity onPress={() => onDelete(item)}>
                 <Text style={styles.x}>X</Text>
