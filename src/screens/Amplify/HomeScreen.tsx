@@ -4,6 +4,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
 import React from 'react';
 import {
@@ -16,6 +17,8 @@ import {
 import {Auth} from 'aws-amplify';
 
 export const HomeScreen = () => {
+  const [todo, setTodo] = React.useState('');
+
   const {data, refetch} = useListTodosQuery({
     onError: error => console.log('ERROR', error),
   });
@@ -56,7 +59,7 @@ export const HomeScreen = () => {
         variables: {
           input: {
             id: Math.random().toString(),
-            name: `Todo ${Math.round(Math.random() * 100)}`,
+            name: todo,
             description: 'Todo description',
             owner: 'a618a19d-54ae-42a6-8264-d05434931a4a',
           },
@@ -83,8 +86,6 @@ export const HomeScreen = () => {
     }
   };
 
-  console.log(data?.listTodos?.items.map(item => item?.owner));
-
   const onLogout = async () => {
     try {
       await Auth.signOut();
@@ -107,11 +108,18 @@ export const HomeScreen = () => {
       <View style={styles.container}>
         <Text>{userData?.getUser?.phoneNumber}</Text>
         <Text>{userData?.getUser?.email}</Text>
-        <TouchableOpacity onPress={addTodo}>
-          <Text style={styles.button}>Add todo</Text>
-        </TouchableOpacity>
         <TouchableOpacity onPress={() => refetch()}>
           <Text style={styles.button}>Get todos</Text>
+        </TouchableOpacity>
+        <TextInput
+          value={todo}
+          onChangeText={setTodo}
+          placeholder="Todo"
+          style={styles.input}
+          autoCapitalize="none"
+        />
+        <TouchableOpacity onPress={addTodo}>
+          <Text style={styles.button}>Add todo</Text>
         </TouchableOpacity>
         <View>
           {data?.listTodos?.items.map(item => (
@@ -172,5 +180,10 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 16,
     color: 'red',
+  },
+  input: {
+    borderWidth: 1,
+    width: '70%',
+    padding: 12,
   },
 });
