@@ -17,7 +17,6 @@ export type Scalars = {
 };
 
 export type CreateTodoInput = {
-  description?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   name: Scalars['String'];
   owner?: InputMaybe<Scalars['ID']>;
@@ -192,7 +191,6 @@ export type ModelSubscriptionStringInput = {
 
 export type ModelSubscriptionTodoFilterInput = {
   and?: InputMaybe<Array<InputMaybe<ModelSubscriptionTodoFilterInput>>>;
-  description?: InputMaybe<ModelSubscriptionStringInput>;
   id?: InputMaybe<ModelSubscriptionIdInput>;
   name?: InputMaybe<ModelSubscriptionStringInput>;
   or?: InputMaybe<Array<InputMaybe<ModelSubscriptionTodoFilterInput>>>;
@@ -210,7 +208,6 @@ export type ModelSubscriptionUserFilterInput = {
 
 export type ModelTodoConditionInput = {
   and?: InputMaybe<Array<InputMaybe<ModelTodoConditionInput>>>;
-  description?: InputMaybe<ModelStringInput>;
   name?: InputMaybe<ModelStringInput>;
   not?: InputMaybe<ModelTodoConditionInput>;
   or?: InputMaybe<Array<InputMaybe<ModelTodoConditionInput>>>;
@@ -225,7 +222,6 @@ export type ModelTodoConnection = {
 
 export type ModelTodoFilterInput = {
   and?: InputMaybe<Array<InputMaybe<ModelTodoFilterInput>>>;
-  description?: InputMaybe<ModelStringInput>;
   id?: InputMaybe<ModelIdInput>;
   name?: InputMaybe<ModelStringInput>;
   not?: InputMaybe<ModelTodoFilterInput>;
@@ -401,7 +397,6 @@ export type SubscriptionOnUpdateUserArgs = {
 export type Todo = {
   __typename?: 'Todo';
   createdAt: Scalars['AWSDateTime'];
-  description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name: Scalars['String'];
   owner?: Maybe<Scalars['ID']>;
@@ -410,7 +405,6 @@ export type Todo = {
 };
 
 export type UpdateTodoInput = {
-  description?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
   name?: InputMaybe<Scalars['String']>;
   owner?: InputMaybe<Scalars['ID']>;
@@ -435,7 +429,7 @@ export type User = {
   username?: Maybe<Scalars['String']>;
 };
 
-export type TodoItemFragment = { __typename: 'Todo', id: string, name: string, description?: string | null, createdAt: any, updatedAt: any, owner?: string | null, user?: { __typename: 'User', createdAt?: any | null, email?: string | null, id: string, phoneNumber?: string | null, updatedAt?: any | null, username?: string | null } | null };
+export type TodoItemFragment = { __typename: 'Todo', id: string, name: string, createdAt: any, updatedAt: any, owner?: string | null, user?: { __typename?: 'User', email?: string | null, id: string, phoneNumber?: string | null, username?: string | null } | null };
 
 export type UserDataFragment = { __typename: 'User', createdAt?: any | null, email?: string | null, id: string, phoneNumber?: string | null, updatedAt?: any | null, username?: string | null };
 
@@ -452,7 +446,7 @@ export type CreateTodoMutationVariables = Exact<{
 }>;
 
 
-export type CreateTodoMutation = { __typename?: 'Mutation', createTodo?: { __typename?: 'Todo', id: string, name: string, description?: string | null, createdAt: any, updatedAt: any } | null };
+export type CreateTodoMutation = { __typename?: 'Mutation', createTodo?: { __typename?: 'Todo', id: string, name: string, createdAt: any, updatedAt: any } | null };
 
 export type DeleteTodoMutationVariables = Exact<{
   input: DeleteTodoInput;
@@ -460,7 +454,7 @@ export type DeleteTodoMutationVariables = Exact<{
 }>;
 
 
-export type DeleteTodoMutation = { __typename?: 'Mutation', deleteTodo?: { __typename?: 'Todo', id: string, name: string, description?: string | null, createdAt: any, updatedAt: any } | null };
+export type DeleteTodoMutation = { __typename?: 'Mutation', deleteTodo?: { __typename?: 'Todo', id: string, name: string, createdAt: any, updatedAt: any } | null };
 
 export type CreateUserMutationVariables = Exact<{
   input: CreateUserInput;
@@ -484,7 +478,7 @@ export type ListTodosQueryVariables = Exact<{
 }>;
 
 
-export type ListTodosQuery = { __typename?: 'Query', listTodos?: { __typename?: 'ModelTodoConnection', nextToken?: string | null, items: Array<{ __typename: 'Todo', id: string, name: string, description?: string | null, createdAt: any, updatedAt: any, owner?: string | null, user?: { __typename: 'User', createdAt?: any | null, email?: string | null, id: string, phoneNumber?: string | null, updatedAt?: any | null, username?: string | null } | null } | null> } | null };
+export type ListTodosQuery = { __typename?: 'Query', listTodos?: { __typename?: 'ModelTodoConnection', nextToken?: string | null, items: Array<{ __typename: 'Todo', id: string, name: string, createdAt: any, updatedAt: any, owner?: string | null, user?: { __typename?: 'User', email?: string | null, id: string, phoneNumber?: string | null, username?: string | null } | null } | null> } | null };
 
 export type GetUserQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -493,6 +487,22 @@ export type GetUserQueryVariables = Exact<{
 
 export type GetUserQuery = { __typename?: 'Query', getUser?: { __typename: 'User', createdAt?: any | null, email?: string | null, id: string, phoneNumber?: string | null, updatedAt?: any | null, username?: string | null } | null };
 
+export const TodoItemFragmentDoc = gql`
+    fragment TodoItem on Todo {
+  __typename
+  id
+  name
+  createdAt
+  updatedAt
+  owner
+  user {
+    email
+    id
+    phoneNumber
+    username
+  }
+}
+    `;
 export const UserDataFragmentDoc = gql`
     fragment UserData on User {
   __typename
@@ -504,20 +514,6 @@ export const UserDataFragmentDoc = gql`
   username
 }
     `;
-export const TodoItemFragmentDoc = gql`
-    fragment TodoItem on Todo {
-  __typename
-  id
-  name
-  description
-  createdAt
-  updatedAt
-  owner
-  user {
-    ...UserData
-  }
-}
-    ${UserDataFragmentDoc}`;
 export const AddTodoLambdaDocument = gql`
     mutation AddTodoLambda($geohashes: [String]) {
   addTodoLambda(geohashes: $geohashes)
@@ -554,7 +550,6 @@ export const CreateTodoDocument = gql`
   createTodo(input: $input, condition: $condition) {
     id
     name
-    description
     createdAt
     updatedAt
   }
@@ -592,7 +587,6 @@ export const DeleteTodoDocument = gql`
   deleteTodo(input: $input, condition: $condition) {
     id
     name
-    description
     createdAt
     updatedAt
   }

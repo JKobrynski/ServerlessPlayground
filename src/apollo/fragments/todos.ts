@@ -5,7 +5,6 @@ export const TodoItemFragment = gql`
     __typename
     id
     name
-    description
     createdAt
     updatedAt
     owner

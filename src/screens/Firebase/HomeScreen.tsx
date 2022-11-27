@@ -98,11 +98,9 @@ export const HomeScreen = () => {
     }
   };
 
-  const onDelete = async (
-    item: FirebaseFirestoreTypes.QueryDocumentSnapshot<FirebaseFirestoreTypes.DocumentData>,
-  ) => {
+  const onDelete = async (item: any) => {
     try {
-      await firestore().collection('todos').doc(item.id).delete();
+      await firestore().collection('todos').doc(item.documentId).delete();
       await getTodos();
     } catch (err) {
       console.log('[onDelete] err', err);

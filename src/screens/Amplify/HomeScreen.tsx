@@ -60,7 +60,6 @@ export const HomeScreen = () => {
           input: {
             id: Math.random().toString(),
             name: todo,
-            description: 'Todo description',
             owner: 'a618a19d-54ae-42a6-8264-d05434931a4a',
           },
         },

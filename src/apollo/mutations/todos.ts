@@ -8,7 +8,6 @@ export const createTodo = gql`
     createTodo(input: $input, condition: $condition) {
       id
       name
-      description
       createdAt
       updatedAt
     }
@@ -23,7 +22,6 @@ export const deleteTodo = gql`
     deleteTodo(input: $input, condition: $condition) {
       id
       name
-      description
       createdAt
       updatedAt
     }

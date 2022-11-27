@@ -12,7 +12,6 @@ export const getTodo = /* GraphQL */ `
     getTodo(id: $id) {
       id
       name
-      description
       owner
       user {
         createdAt
@@ -37,7 +36,6 @@ export const listTodos = /* GraphQL */ `
       items {
         id
         name
-        description
         owner
         user {
           createdAt
